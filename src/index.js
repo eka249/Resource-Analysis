@@ -6,7 +6,14 @@ import * as serviceWorker from "./serviceWorker";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 
-const store = createStore();
+import reducer from "./reducers/rootReducer";
+
+const store = createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+// more reducer files will have to be in here. not sure how to do this...will figure out
+console.log("store", store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
