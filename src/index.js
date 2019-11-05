@@ -3,17 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { createStore } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
-
+// import thunkMiddleware = require("redux-thunk");
+import thunk from "redux-thunk";
 import reducer from "./reducers/rootReducer";
 
-const store = createStore(
-  reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+const composeEnhancer =
+  (window.__REDUX_DEVTOOLS_EXTENSION__ &&
+    window.__REDUX_DEVTOOLS_EXTENSION__) ||
+  compose;
+//the above format found here: https://github.com/reduxjs/redux-thunk/issues/35
+
+const store = createStore(reducer, composeEnhancer(applyMiddleware(thunk)));
 // more reducer files will have to be in here. not sure how to do this...will figure out
-console.log("store", store.getState());
+
+// console.log("store", store.getState());
 
 ReactDOM.render(
   <Provider store={store}>
