@@ -4,6 +4,7 @@ import SignIn from "./components/signIn_and_admin/SignIn";
 import "./App.css";
 import AddNewUser from "./components/signIn_and_admin/addNewUser";
 import ManagerContainer from "./containers/ManagerContainer";
+import TaskList from "./containers/TaskList";
 
 function App() {
   return (
@@ -11,8 +12,10 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <body>
-          {/* <SignIn /> */}
-          <AddNewUser />
+          {/* <SignIn />
+          <AddNewUser /> */}
+          {/* <ManagerContainer /> */}
+          <TaskList />
 
           {/* <AdminHome /> */}
           {/* <ManagerContainer /> */}

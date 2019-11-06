@@ -26,7 +26,7 @@ class AddNewUser extends Component {
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password,
+        password: "1234",
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         unit: this.state.unit
@@ -69,13 +69,13 @@ class AddNewUser extends Component {
           placeholder="New User Unit"
           onChange={this.handleChange}
         ></input>
-        <input
+        {/* <input
           name="password"
           component="input"
           type="text"
           placeholder="New User Passwrod"
           onChange={this.handleChange}
-        ></input>
+        ></input> */}
         <button type="submit">Submit</button>
       </form>
     );

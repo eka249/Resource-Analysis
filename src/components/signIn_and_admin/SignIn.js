@@ -17,7 +17,7 @@ class SignIn extends Component {
   handleSignIn = e => {
     e.preventDefault();
     // this.props.userPostFetch(this.state);
-    fetch("http://localhost:3000/login", {
+    fetch("http://localhost:3000/session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ class SignIn extends Component {
           onChange={this.handleChange}
         ></input>
         <input
-          name="email"
+          name="password"
           component="input"
           type="password"
           placeholder="Password"
