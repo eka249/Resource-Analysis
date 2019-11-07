@@ -16,7 +16,6 @@ class SignIn extends Component {
 
   handleSignIn = e => {
     e.preventDefault();
-    // this.props.userPostFetch(this.state);
     fetch("http://localhost:3000/session", {
       method: "POST",
       headers: {

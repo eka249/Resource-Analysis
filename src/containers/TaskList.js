@@ -21,31 +21,70 @@ class TaskList extends Component {
       .catch(err => console.log(err));
   }
 
-  handleCompleteTask = task => {
-    fetch(`http://localhost:3000/tasks/${task.id}`, {
+  handleEditTask = task => {
+    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
       method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
       headers: {
         Authorization: `Bearer ${localStorage.token}`
       },
       body: JSON.stringify({
-        complete: 1
+        notes: task.notes
       })
     });
   };
 
+  handleCompleteTask = task => {
+    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      // headers: {
+      //   Authorization: `Bearer ${localStorage.token}`
+      // },
+      body: JSON.stringify({
+        complete: 1
+      })
+    });
+    // console.log("all tasks state", this.state.allTasks);
+    let filtered = this.state.allTasks.filter(
+      removed => removed.id !== task.id
+    );
+    this.setState({
+      allTasks: [...filtered]
+    });
+    console.log(this.state);
+  };
+
   render() {
     console.log(this.state.allTasks);
+
     if (this.state.allTasks !== []) {
       const taskList = this.state.allTasks.map((task, index) => {
+        // if (task.manager_id == current_user.id) {
         return (
-          <TaskDetails
-            key={index}
-            task={task}
-            handleCompleteTask={this.handleCompleteTask}
-          />
+          <div>
+            <TaskDetails
+              key={index}
+              task={task}
+              handleCompleteTask={this.handleCompleteTask}
+              handleEditTask={this.handleEditTask}
+            />
+          </div>
         );
+        // }
       });
-      return <div>{taskList}</div>;
+      return (
+        <div>
+          <h3>Your list of employees and their tasks</h3>
+          {taskList}
+        </div>
+      );
     }
   }
 }
