@@ -16,7 +16,7 @@ class SignIn extends Component {
 
   handleSignIn = e => {
     e.preventDefault();
-    fetch("http://localhost:3000/session", {
+    fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

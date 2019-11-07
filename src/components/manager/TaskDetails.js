@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, List } from "semantic-ui-react";
-import AddNotesToTask from "../../containers/AddNotesToTask";
+import EditTask from "../../containers/EditTask";
 
 class TaskDetails extends Component {
   // console.log("current task", props.task);
@@ -30,18 +30,14 @@ class TaskDetails extends Component {
             <Button onClick={this.showModal}>Add notes</Button>
           </List.Content>
           <List.Content floated="right">
-            <Button
-              onClick={() => this.props.handleCompleteTask(this.props.task)}
-            >
-              Mark as Complete
-            </Button>
             {this.state.show ? (
-              <AddNotesToTask
+              <EditTask
                 task={this.props.task}
-                // logged_in={this.state.logged_in}
-                // user={this.state.user}
-                // getLoggedIn={this.getLoggedIn}
+                logged_in={this.state.logged_in}
+                user={this.state.user}
+                getLoggedIn={this.getLoggedIn}
                 showModal={this.showModal}
+                handleCompleteTask={this.props.handleCompleteTask}
               />
             ) : null}
           </List.Content>

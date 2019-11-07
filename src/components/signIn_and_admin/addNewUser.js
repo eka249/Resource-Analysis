@@ -18,7 +18,7 @@ class AddNewUser extends Component {
   submitNewUser = e => {
     e.preventDefault();
     console.log("started post new user from front end");
-    fetch("http://localhost:3000/new", {
+    fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

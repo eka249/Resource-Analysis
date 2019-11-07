@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import { Modal, Form, Header, Button } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
-class AddNotesToTask extends Component {
+class EditTask extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       fields: {
-        notes: this.props.notes
+        // task: this.props.task,
+        notes: this.props.notes,
+        comp_date: this.props.comp_date,
+        complete: 0
       }
     };
   }
@@ -19,29 +22,19 @@ class AddNotesToTask extends Component {
     });
   };
 
-  handleAddNotes = task => {
-    fetch(`http://localhost:3000/tasks/${task.id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
+  handleSubmit = () => {
+    this.setState(
+      {
+        fields: { ...this.state.fields, complete: 1 }
       },
-      // headers: {
-      //   Authorization: `Bearer ${localStorage.token}`
-      // },
-      body: JSON.stringify({
-        notes: this.state.notes
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("after adding/editing notes", data);
-        // this.setState(prevState => {
-        //   return { signedUp: true };
-        // });
-      });
+      this.props.handleCompleteTask(this.props.task, this.state),
+      this.props.showModal
+    );
+    // ,
+    //   () => this.props.handleCompleteTask(this.props.task, this.state);
+    // ,
+    // () => this.props.showModal;
   };
-
   render() {
     return (
       <Modal
@@ -66,24 +59,36 @@ class AddNotesToTask extends Component {
             label="Notes"
             type="text"
             placeholder="New Note(s)"
-            id="username"
+            id="notes"
             onChange={this.handleChange}
-          />
-          {this.state.notes}
+          >
+            {this.state.notes}
+          </Form.Input>
+          <Form.Input
+            label="Date Completed"
+            type="text"
+            placeholder="Enter Date Completed YYYY-MM-DD"
+            id="comp_date"
+            onChange={this.handleChange}
+          >
+            {this.state.comp_date}
+          </Form.Input>
         </Modal.Content>
         <Modal.Actions>
           <Button
             color="green"
             content="Save"
-            // onClick={console.log("sign in hit")}
             onClick={
-              // this.onSignIn
-              this.handleAddNotes
+              (() => this.props.handleCompleteTask(this.props.task, this.state),
+              () => this.props.showModal)
             }
           />
+        </Modal.Actions>
+        <Modal.Actions>
+          <Button onClick={this.handleSubmit}>Save and Complete</Button>
         </Modal.Actions>
       </Modal>
     );
   }
 }
-export default AddNotesToTask;
+export default EditTask;

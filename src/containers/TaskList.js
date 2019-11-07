@@ -21,34 +21,18 @@ class TaskList extends Component {
       .catch(err => console.log(err));
   }
 
-  handleEditTask = task => {
-    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
+  handleCompleteTask = (task, taskState) => {
+    fetch(`http://localhost:3000/tasknotes/${task.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.token}`
       },
       body: JSON.stringify({
-        notes: task.notes
-      })
-    });
-  };
-
-  handleCompleteTask = task => {
-    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      // headers: {
-      //   Authorization: `Bearer ${localStorage.token}`
-      // },
-      body: JSON.stringify({
-        complete: 1
+        complete: taskState.complete,
+        comp_date: taskState.comp_date,
+        notes: taskState.notes
       })
     });
     // console.log("all tasks state", this.state.allTasks);
