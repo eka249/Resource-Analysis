@@ -1,14 +1,20 @@
 import React, { Component } from "react";
 import { Form, Button } from "semantic-ui-react";
-// import { applyMiddleware } from "redux";
-import { connect } from "react-redux";
-import { userPostFetch } from "../../actions/fetchActions";
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 class SignIn extends Component {
   state = {
     email: "",
-    password: ""
+    password: "",
+    user: ""
   };
+
   handleChange = e => {
     let inputVal = e.target.name;
     this.setState({ ...this.state, [inputVal]: e.target.value });
@@ -16,7 +22,8 @@ class SignIn extends Component {
 
   handleSignIn = e => {
     e.preventDefault();
-    fetch("http://localhost:3000/session", {
+    console.log("initiated authentication request");
+    fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,16 +35,46 @@ class SignIn extends Component {
       })
     })
       .then(resp => resp.json())
-      .then(json => {
-        if (json.jwt) {
-          localStorage.setItem("token", json.jwt);
-          //instead of sending this loginUser function as props, dispatch the function to action..later to be sent to formReducer
-          // dispatch(loginUser(json.user));
+      .then(
+        data => this.setState({ user: data.user }),
+        () => {
+          this.props.history.push(`/${this.state.user.role}`);
         }
-      });
+      ),
+      // .then(data => {
+      //   this.props.getLoggedIn(data);
+      // })
+      () => {
+        this.props.getLoggedIn(this.state.user);
+      };
   };
 
+  // .then(json => console.log(json.user.role))
+  // .then(
+  //   // json.user.role === "admin"?
+  //   history.push("/admin")
+  // );
+  // .then(json => console.log(json))
+  // .then(json => {
+  //   // if (json.jwt) {
+  //   localStorage.setItem("token", json.jwt);
+  // }
+  // return json;
+  // this.props.history.push("/managerhome")
+  // })
+
+  //   : console.log(json.user.role)
+
+  // : this.props.history.push("/manager");
+
+  // .then(resp => this.setState({ user: resp.user }))
+  // .then(json => this.props.history.push(`/${json.user.role}`))
+  // .then(() => this.props.history.push("/admin"));
+  // .then(json => console.log(json.user.role));
+  // .then(console.log("end of handle sign in"));
+
   render() {
+    console.log("Sign-in", this.state.user);
     return (
       <form onSubmit={this.handleSignIn}>
         <input
@@ -60,13 +97,4 @@ class SignIn extends Component {
   }
 }
 
-// const mapDispatchToProps = dispatch => ({
-//   userPostFetch: userInfo => dispatch(userPostFetch(userInfo))
-// });
-
-export default // connect(
-//   null,
-//   mapDispatchToProps
-// )(
-SignIn;
-// );
+export default withRouter(SignIn);

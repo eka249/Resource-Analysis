@@ -22,7 +22,7 @@ class TaskList extends Component {
   }
 
   handleEditTask = task => {
-    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
+    fetch(`http://localhost:3000/tasks/${task.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
@@ -38,15 +38,15 @@ class TaskList extends Component {
   };
 
   handleCompleteTask = task => {
-    fetch(`http://localhost:3000/api/tasks/${task.id}`, {
+    fetch(`http://localhost:3000/tasks/${task.id}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      // headers: {
-      //   Authorization: `Bearer ${localStorage.token}`
-      // },
+      headers: {
+        Authorization: `Bearer ${localStorage.token}`
+      },
       body: JSON.stringify({
         complete: 1
       })
@@ -64,28 +64,27 @@ class TaskList extends Component {
   render() {
     console.log(this.state.allTasks);
 
-    if (this.state.allTasks !== []) {
-      const taskList = this.state.allTasks.map((task, index) => {
-        // if (task.manager_id == current_user.id) {
-        return (
-          <div>
-            <TaskDetails
-              key={index}
-              task={task}
-              handleCompleteTask={this.handleCompleteTask}
-              handleEditTask={this.handleEditTask}
-            />
-          </div>
-        );
-        // }
-      });
-      return (
-        <div>
-          <h3>Your list of employees and their tasks</h3>
-          {taskList}
-        </div>
-      );
-    }
+    // if (this.state.allTasks !== []) {
+    //   const taskList = this.state.allTasks.map((task, index) => {
+    //     // if (task.manager_id == current_user.id) {
+    //     return (
+    //       <div>
+    //         <TaskDetails
+    //           key={index}
+    //           task={task}
+    //           handleCompleteTask={this.handleCompleteTask}
+    //           handleEditTask={this.handleEditTask}
+    //         />
+    //       </div>
+    //     );
+    //     }
+
+    return (
+      <div>
+        <h3>Your list of employees and their tasks</h3>
+        {/* {taskList} */}
+      </div>
+    );
   }
 }
 

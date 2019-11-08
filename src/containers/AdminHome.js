@@ -1,6 +1,14 @@
 //TEMPLATE FOR LATER
+import React from "react";
 
-// // class AdminHome
+class AdminHome extends React.Component {
+  render() {
+    return <div>admin home</div>;
+  }
+
+  /* <AddNewUser user={this.user} />; */
+}
+export default AdminHome;
 
 // <Modal.Content>
 //           <Header content="Or Sign Up!" as="h3"></Header>

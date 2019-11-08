@@ -9,7 +9,8 @@ class AddNewUser extends Component {
     first_name: "",
     last_name: "",
     unit: "",
-    password: ""
+    role: "",
+    password: "123456789a!"
   };
   handleChange = e => {
     let inputVal = e.target.name;
@@ -18,18 +19,20 @@ class AddNewUser extends Component {
   submitNewUser = e => {
     e.preventDefault();
     console.log("started post new user from front end");
-    fetch("http://localhost:3000/new", {
+    fetch("http://localhost:3000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: "1234",
+        password: this.state.password,
         first_name: this.state.first_name,
         last_name: this.state.last_name,
-        unit: this.state.unit
+        unit: this.state.unit,
+        role: this.state.role
       })
     })
       .then(response => response.json())
@@ -67,6 +70,13 @@ class AddNewUser extends Component {
           component="input"
           type="text"
           placeholder="New User Unit"
+          onChange={this.handleChange}
+        ></input>
+        <input
+          name="role"
+          component="input"
+          type="text"
+          placeholder="New User Role"
           onChange={this.handleChange}
         ></input>
         {/* <input
