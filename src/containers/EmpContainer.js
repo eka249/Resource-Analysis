@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid, Image } from "semantic-ui-react";
 import TaskList from "./TaskList";
-import ChartContainer from "./ChartContainer ";
 
 class EmpContainer extends React.Component {
   componentDidMount = () => {};
@@ -15,9 +14,7 @@ class EmpContainer extends React.Component {
             <Grid.Column>
               <TaskList />
             </Grid.Column>
-            <Grid.Column>
-              <ChartContainer />
-            </Grid.Column>
+            <Grid.Column>{/* <ChartContainer /> */}</Grid.Column>
           </Grid.Row>
         </Grid>
       </div>

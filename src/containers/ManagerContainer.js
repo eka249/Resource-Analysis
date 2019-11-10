@@ -4,13 +4,18 @@ import TaskList from "./TaskList";
 import ChartContainer from "../components/manager/ChartContainer ";
 
 class ManagerContainer extends React.Component {
-  componentDidMount = () => {};
+  constructor(props) {
+    super(props);
+    console.log(this.props.user);
+    this.state = {
+      user: this.props.user
+    };
+  }
 
   render() {
     return (
       <div>
-        {" "}
-        manager page
+        <h1>Hello {this.state.user.first_name} !</h1>
         <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column>

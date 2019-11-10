@@ -6,12 +6,15 @@ import AddNewUser from "./components/admin/addNewUser";
 import ManagerContainer from "./containers/ManagerContainer";
 import AdminHome from "./containers/AdminHome";
 import AllRoutes from "./AllRoutes";
-import NavBar from "./containers/NavBar";
+import EmpContainer from "./containers/EmpContainer";
+import UserNavBar from "./containers/UserNavBar";
+import AdminNavBar from "./containers/AdminNavBar";
 import {
   BrowserRouter as Router,
   withRouter,
   Route,
   Switch,
+  Redirect,
   useHistory
 } from "react-router-dom";
 import jwtDecode from "jwt-decode";
@@ -21,16 +24,22 @@ class App extends Component {
   //   super();
   state = {
     logged_in: false,
-    user: null
+    user: null,
+    redirect: true
   };
   // }
   getLoggedIn = data => {
     console.log(
       "setting user as the  data who has recieved a token and has it in local storage "
     );
+    console.log("the person being logged in", data);
     this.setState(prevState => {
-      return { logged_in: true, user: data.user };
+      return { logged_in: true, user: data };
     });
+    // let targetPath = `/${this.state.user.role}`;
+    // if (this.state.redirect) {
+    //   return <Redirect to={targetPath} />;
+    // }
   };
 
   logOut = () => {
@@ -43,17 +52,57 @@ class App extends Component {
       };
     });
   };
-
   render() {
+    //  paramsForAll = () => {
+    //    return {
+    //     logOut={this.logOut}
+    //     user={this.state.user}
+    //     loggedIn={this.state.logged_in}
+    //    }
+    //  }
     return (
       <div>
         <Router>
-          <NavBar
-            logOut={this.logOut}
-            user={this.state.user}
-            loggedIn={this.state.logged_in}
-          />
-          <SignIn getLoggedIn={this.props.getLoggedIn}></SignIn>
+          <Route exact path="/">
+            <SignIn getLoggedIn={this.getLoggedIn}></SignIn>
+          </Route>
+          <Route path="/admin">
+            <AdminNavBar
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+            <AdminHome
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+          </Route>
+
+          <Route path="/manager">
+            <UserNavBar
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+            <ManagerContainer
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+          </Route>
+          <Route path="/employee">
+            <UserNavBar
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+            <EmpContainer
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            />
+          </Route>
         </Router>
       </div>
     );

@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Menu, Segment } from "semantic-ui-react";
 import TaskList from "./TaskList";
 import ChartContainer from "../components/manager/ChartContainer ";
+import { Link } from "react-router-dom";
 
-class NavBar extends React.Component {
+class UserNavBar extends React.Component {
   //   componentDidMount = () => {};
   state = { activeItem: "home" };
   handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -26,6 +27,8 @@ class NavBar extends React.Component {
           />
           <Menu.Menu position="right">
             <Menu.Item
+              as={Link}
+              to="/"
               name="logout"
               active={activeItem === "logout"}
               onClick={this.props.logOut}
@@ -41,4 +44,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default UserNavBar;

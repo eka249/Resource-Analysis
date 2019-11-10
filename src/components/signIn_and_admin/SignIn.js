@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Route,
   Switch,
-  useHistory,
   Redirect,
   withRouter
 } from "react-router-dom";
@@ -22,7 +21,6 @@ class SignIn extends Component {
 
   handleSignIn = e => {
     e.preventDefault();
-    console.log("initiated authentication request");
     fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
@@ -35,19 +33,27 @@ class SignIn extends Component {
       })
     })
       .then(resp => resp.json())
-      .then(
-        data => this.setState({ user: data.user }),
-        () => {
-          this.props.history.push(`/${this.state.user.role}`);
-        }
-      ),
-      // .then(data => {
-      //   this.props.getLoggedIn(data);
-      // })
-      () => {
-        this.props.getLoggedIn(this.state.user);
-      };
+      // .then(data => console.log(data.user))
+      // .then(data => this.setState({ user: data.user }));
+      .then(data => {
+        this.props.getLoggedIn(data.user);
+        return data;
+      })
+      .then(data => {
+        this.props.history.push(`/${data.user.role}`);
+      });
   };
+
+  // return data;
+
+  // .catch(err => console.log(err));
+
+  // .then(data => console.log(data));
+  // .then(console.log(this.props))
+
+  // () => {
+  //   this.props.getLoggedIn(this.state.user);
+  // };
 
   // .then(json => console.log(json.user.role))
   // .then(
@@ -74,7 +80,6 @@ class SignIn extends Component {
   // .then(console.log("end of handle sign in"));
 
   render() {
-    console.log("Sign-in", this.state.user);
     return (
       <form onSubmit={this.handleSignIn}>
         <input

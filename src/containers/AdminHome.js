@@ -1,14 +1,23 @@
 //TEMPLATE FOR LATER
 import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+  Redirect,
+  withRouter
+} from "react-router-dom";
 
 class AdminHome extends React.Component {
   render() {
+    console.log("renered admin pgge");
     return <div>admin home</div>;
   }
 
   /* <AddNewUser user={this.user} />; */
 }
-export default AdminHome;
+export default withRouter(AdminHome);
 
 // <Modal.Content>
 //           <Header content="Or Sign Up!" as="h3"></Header>
