@@ -7,42 +7,89 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
+import jwtDecode from "jwt-decode";
+
 class SignIn extends Component {
   state = {
     email: "",
     password: "",
-    user: ""
+    user_id: ""
   };
-
+  componentDidMount() {
+    let jwt = window.localStorage.getItem("jwt");
+    let result = jwtDecode(jwt);
+    console.log("restul", result);
+    this.setState({ user_id: result.id, email: result.email, redirect: true });
+  }
   handleChange = e => {
     let inputVal = e.target.name;
     this.setState({ ...this.state, [inputVal]: e.target.value });
   };
 
-  handleSignIn = e => {
+  handleSubmit = e => {
     e.preventDefault();
-    fetch("http://localhost:3000/login", {
+    this.getToken(this.state.email, this.state.password);
+  };
+  getToken = (email, password) => {
+    var formData = new FormData();
+    formData.append("email", email);
+    formData.append("password", password);
+    fetch("http://localhost:3000/tokens", {
       method: "POST",
+      body: formData
+    })
+      .then(res => res.json())
+      .then(res => window.localStorage.setItem("jwt", res.jwt))
+      // .then(res => {
+      //   this.props.getLoggedIn(res.user);
+      // })
+      //   return res;
+      // })
+      // .then(res => this.props.history.push(`/${this.state.user.role}`))
+      // .then(res => this.props.history.push(`/${this.state.role}`))
+      .then(this.handleSignIn());
+  };
+  handleSignIn = () => {
+    fetch(`http://localhost:3000/users/${this.state.user_id}`, {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
     })
-      .then(resp => resp.json())
-      // .then(data => console.log(data.user))
-      // .then(data => this.setState({ user: data.user }));
+      .then(response => response.json())
       .then(data => {
-        this.props.getLoggedIn(data.user);
+        this.props.getLoggedIn(data);
         return data;
       })
-      .then(data => {
-        this.props.history.push(`/${data.user.role}`);
-      });
+      .then(data => this.props.history.push(`/${data.role}`));
   };
+
+  // handleSignIn = e => {
+  //   e.preventDefault();
+  //   fetch("http://localhost:3000/login", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Accept: "application/json"
+  //     },
+  //     body: JSON.stringify({
+  //       email: this.state.email,
+  //       password: this.state.password
+  //     })
+  //   })
+  //     .then(resp => resp.json())
+  //     // .then(data => console.log(data.user))
+  //     // .then(data => this.setState({ user: data.user }));
+  //     .then(data => {
+  //       this.props.getLoggedIn(data.user);
+  //       return data;
+  //     })
+  //     .then(data => {
+  //       this.props.history.push(`/${data.user.role}`);
+  //     });
+  // };
 
   // return data;
 
@@ -81,7 +128,7 @@ class SignIn extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSignIn}>
+      <form onSubmit={this.handleSubmit}>
         <input
           name="email"
           component="input"

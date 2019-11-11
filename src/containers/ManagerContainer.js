@@ -6,7 +6,7 @@ import ChartContainer from "../components/manager/ChartContainer ";
 class ManagerContainer extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.user);
+    console.log(this.props);
     this.state = {
       user: this.props.user
     };
@@ -19,12 +19,11 @@ class ManagerContainer extends React.Component {
         <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column>
+              {/* <NewTaskButton /> */}
               {/* <FilterEmpForm /> */}
-              <TaskList />
+              <TaskList user={this.props.user} />
             </Grid.Column>
-            <Grid.Column>
-              <ChartContainer />
-            </Grid.Column>
+            <Grid.Column>{/* <ChartContainer /> */}</Grid.Column>
           </Grid.Row>
         </Grid>
       </div>

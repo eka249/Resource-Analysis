@@ -3,9 +3,8 @@ import { Button, List } from "semantic-ui-react";
 import AddNotesToTask from "../../containers/AddNotesToTask";
 
 class TaskDetails extends Component {
-  // console.log("current task", props.task);
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       show: false
     };
@@ -13,8 +12,8 @@ class TaskDetails extends Component {
 
   showModal = () => {
     this.setState({
-      show: !this.state.show
-      // ,logged_in: true
+      show: !this.state.show,
+      logged_in: true
     });
   };
 
@@ -31,7 +30,7 @@ class TaskDetails extends Component {
           </List.Content>
           <List.Content floated="right">
             <Button
-              onClick={() => this.props.handleCompleteTask(this.props.task)}
+              onClick={() => this.props.handleCompleteTask(this.props.task.id)}
             >
               Mark as Complete
             </Button>

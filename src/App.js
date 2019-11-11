@@ -9,6 +9,7 @@ import AllRoutes from "./AllRoutes";
 import EmpContainer from "./containers/EmpContainer";
 import UserNavBar from "./containers/UserNavBar";
 import AdminNavBar from "./containers/AdminNavBar";
+import jwtDecode from "jwt-decode";
 import {
   BrowserRouter as Router,
   withRouter,
@@ -17,33 +18,20 @@ import {
   Redirect,
   useHistory
 } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-
 class App extends Component {
-  // constructor() {
-  //   super();
   state = {
     logged_in: false,
     user: null,
     redirect: true
   };
-  // }
+
   getLoggedIn = data => {
-    console.log(
-      "setting user as the  data who has recieved a token and has it in local storage "
-    );
-    console.log("the person being logged in", data);
     this.setState(prevState => {
       return { logged_in: true, user: data };
     });
-    // let targetPath = `/${this.state.user.role}`;
-    // if (this.state.redirect) {
-    //   return <Redirect to={targetPath} />;
-    // }
   };
 
   logOut = () => {
-    console.log("hit log out");
     localStorage.removeItem("jwt");
     this.setState(prevState => {
       return {
@@ -53,13 +41,6 @@ class App extends Component {
     });
   };
   render() {
-    //  paramsForAll = () => {
-    //    return {
-    //     logOut={this.logOut}
-    //     user={this.state.user}
-    //     loggedIn={this.state.logged_in}
-    //    }
-    //  }
     return (
       <div>
         <Router>
