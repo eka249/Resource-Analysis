@@ -5,6 +5,8 @@ import {
   Form,
   Header,
   Button,
+  Select,
+  Dropdown,
   Image,
   Icon,
   Container,
@@ -69,6 +71,27 @@ class NewTaskButton extends Component {
       .then(this.props.fetchTasks);
   };
 
+  employeeOptions = () => {
+    let options = [
+      { key: "Jared", text: "Jared", value: "Jared" },
+      { key: "Joseph", text: "Joseph", value: "Joseph" },
+      { key: "Brittan", text: "Brittan", value: "Brittan" },
+      { key: "Katana", text: "JKatana", value: "Katana" },
+      { key: "Matt", text: "Matt", value: "Matt" }
+    ];
+    return options;
+  };
+
+  // let optionsFinal = this.props.employees.map(emp =>
+  //   options.unshift({
+  //     key: ${emp.first_name},
+  //     text: ${emp.first_name},
+  //     value: ${emp.first_name}
+
+  // })
+
+  // console.log(optionsFinal);
+
   render() {
     return (
       <Modal
@@ -107,8 +130,9 @@ class NewTaskButton extends Component {
               <Form.Input
                 fluid
                 label="Assign To"
+                control={Select}
                 name="assigned_to"
-                employees={employees}
+                options={this.employeeOptions()}
                 placeholder="Employee name"
                 id="assigned_to"
                 onChange={this.handleChange}
@@ -135,7 +159,7 @@ class NewTaskButton extends Component {
               id="notes"
               placeholder="Notes (optional)"
               name="notes"
-              onChange={this.handleChangeDate}
+              onChange={this.handleChange}
             />
           </Form>
         </Modal.Content>

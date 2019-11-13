@@ -3,15 +3,16 @@ import { Modal, Form, Header, Button } from "semantic-ui-react";
 import "semantic-ui-css/semantic.min.css";
 
 class AddNotesToTask extends Component {
-  state = {
-    notes: ""
-  };
   constructor(props) {
     super(props);
-    this.setState = {
+    this.state = {
       notes: this.props.myTask.notes
     };
   }
+  handleOpen = () => this.setState({ modalOpen: true });
+
+  handleClose = () => this.setState({ modalOpen: false });
+
   handleChange = e => {
     let fieldName = e.target.id;
     this.setState({
@@ -19,34 +20,35 @@ class AddNotesToTask extends Component {
     });
   };
 
+  handleSaveChange = () => {
+    this.props.handleEditTask(this.props.myTask.id, this.state.notes);
+    this.handleClose();
+  };
+
   render() {
     return (
-      <Modal as={Form} open={true} size="small" className="c-modal">
-        <Header content="Task Notes" as="h2"></Header>
+      <Modal
+        size="large"
+        trigger={<Button onClick={this.handleOpen}>Edit Task</Button>}
+      >
+        <Modal.Header as="h2">Add/Edit Notes</Modal.Header>
         <Modal.Content>
-          <Form.Input
-            label="notes"
-            type="text"
-            name="notes"
-            placeholder="New Note(s)"
-            id="username"
-            onChange={this.handleChange}
-          >
-            {this.state.notes}
-          </Form.Input>
+          <Form>
+            <Form.TextArea
+              label="notes"
+              type="text"
+              placeholder="New Note(s)"
+              id="notes"
+              onChange={this.handleChange}
+            >
+              {this.state.notes}
+            </Form.TextArea>
+          </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button
-            color="green"
-            content="Save"
-            onClick={
-              (this.props.handleEditTask(
-                this.props.myTask.id,
-                this.state.notes
-              ),
-              this.props.showModal)
-            }
-          />
+          <Button color="green" primary onClick={this.handleSaveChange}>
+            Save Edits
+          </Button>
         </Modal.Actions>
       </Modal>
     );

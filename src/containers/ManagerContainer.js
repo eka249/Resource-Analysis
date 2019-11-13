@@ -67,11 +67,14 @@ class ManagerContainer extends React.Component {
               <FilterEmpForm
                 user={this.props.user}
                 unfilteredTaskList={this.state.allMyTasks}
+                employees={this.state.employees}
+                handleFetchTasks={this.fetchTasks}
               />
               <Grid.Column>
                 <NewTaskButton
                   user={this.props.user}
                   fetchTasks={this.fetchTasks}
+                  employees={this.state.employees}
                 />
               </Grid.Column>
             </Grid.Column>
