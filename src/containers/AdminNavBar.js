@@ -18,11 +18,6 @@ class AdminNavBar extends React.Component {
             active={activeItem === "home"}
             onClick={this.handleItemClick}
           />
-          <Menu.Item
-            name="newEmp"
-            active={activeItem === "newEmp"}
-            onClick={this.handleItemClick}
-          />
           <Menu.Menu position="right">
             <Menu.Item
               as={Link}

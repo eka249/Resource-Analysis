@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Button, Modal, Header } from "semantic-ui-react";
+import { Form, Button, Modal, Select } from "semantic-ui-react";
 import { connect } from "react-redux";
 import { userPostFetch } from "../../actions/fetchActions";
 
@@ -13,7 +13,7 @@ class AddNewUser extends Component {
     password: "123456789a!"
   };
   handleChange = e => {
-    let inputVal = e.target.name;
+    let inputVal = e.target.id;
     this.setState({ ...this.state, [inputVal]: e.target.value });
   };
   submitNewUser = e => {
@@ -36,106 +36,92 @@ class AddNewUser extends Component {
       })
     })
       .then(response => response.json())
+      .then(this.handleClose)
       .then(data => {
         console.log("after sign up form", data);
       });
   };
+  handleOpen = () => this.setState({ modalOpen: true });
+
+  handleClose = () => this.setState({ modalOpen: false });
 
   render() {
+    const roleOptions = [
+      { key: "manager", text: "Manager", value: "manager" },
+      { key: "admin", text: "Admin", value: "admin" },
+      { key: "employee", text: "Employee", value: "employee" }
+    ];
     return (
       <div>
-        <Modal as={Form}>
-          <Header content="Or Sign Up!" as="h3"></Header>
-          <Modal.Content>
-            <Form.Input
-              label="First Name"
-              type="text"
-              name="newName"
-              id="newName"
-              name="first_name"
-              component="input"
-              placeholder="New User Email"
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              label=" New username "
-              // required
-              type="text"
-              placeholder="Username"
-              name="newUsername"
-              id="newUsername"
-              // value={this.state.newUser.newUsername}
-              onChange={this.handleChange}
-            />
-            <Form.Input
-              label=" New password "
-              // required
-              type="password"
-              placeholder="Password"
-              name="newPassword"
-              id="newPassword"
-              // value={this.state.newUser.newPassword}
-              onChange={this.handleChange}
-            />
-          </Modal.Content>
-          <Modal.Actions>
+        <Modal
+          size="large"
+          trigger={
             <Button
+              onClick={this.handleOpen}
+              animated="fade"
+              floaded="right"
               type="submit"
               onClick={this.submitNewUser}
               color="green"
-              icon="pencil"
               content="Create New User"
+            >
+              <Button.Content visible>New User</Button.Content>
+              <Button.Content hidden>New User</Button.Content>
+            </Button>
+          }
+        >
+          <Modal.Header as="h3">Enter New User Details</Modal.Header>
+          <Modal.Content>
+            <Form>
+              <Form.Input
+                label="Email "
+                // required
+                type="text"
+                placeholder="Email"
+                id="email"
+                // value={this.state.newUser.newUsername}
+                onChange={e => this.handleChange}
+              />
+              <Form.Input
+                label="First Name"
+                type="text"
+                id="first_name"
+                placeholder="New User First Name"
+                onChange={e => this.handleChange}
+              />
+
+              <Form.Input
+                label="Last Name"
+                type="text"
+                id="laset_name"
+                placeholder="New User Last Name"
+                onChange={e => this.handleChange}
+              />
+            </Form>
+            <Form.Input
+              label="Unit"
+              type="text"
+              id="unit"
+              placeholder="New User Unit"
+              onChange={e => this.handleChange}
             />
+            <Form.Input
+              label="Position"
+              control={Select}
+              options={roleOptions}
+              id="role"
+              placeholder="New User Position"
+              onChange={e => this.handleChange}
+            />
+          </Modal.Content>
+          <Modal.Actions>
+            <Button primary onClick={this.submitNewUser}>
+              Submit
+            </Button>
           </Modal.Actions>
         </Modal>
       </div>
     );
-    // <form onSubmit={this.submitNewUser}>
-    //   <input
-    //     name="email"
-    //     component="input"
-    //     type="text"
-    //     placeholder="New User Email"
-    //     onChange={this.handleChange}
-    //   ></input>
-    //   <input
-    //     name="first_name"
-    //     component="input"
-    //     type="test"
-    //     placeholder="New User First name"
-    //     onChange={this.handleChange}
-    //   ></input>
-    //   <input
-    //     name="last_name"
-    //     component="input"
-    //     type="test"
-    //     placeholder="New User Last name"
-    //     onChange={this.handleChange}
-    //   ></input>
-    //   <input
-    //     name="unit"
-    //     component="input"
-    //     type="text"
-    //     placeholder="New User Unit"
-    //     onChange={this.handleChange}
-    //   ></input>
-    //   <input
-    //     name="role"
-    //     component="input"
-    //     type="text"
-    //     placeholder="New User Role"
-    //     onChange={this.handleChange}
-    //   ></input>
-
-    //   <button type="submit">Submit</button>
-    // </form>
   }
 }
-
-// const mapDispatchToProps = dispatch => ({
-//   userPostFetch: userInfo => dispatch(userPostFetch(userInfo))
-// })
-
-// export default connect(null, mapDispatchToProps
-// )(AddNewUser);
 export default AddNewUser;
