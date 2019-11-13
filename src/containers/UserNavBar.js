@@ -35,10 +35,6 @@ class UserNavBar extends React.Component {
             />
           </Menu.Menu>
         </Menu>
-        {/* 
-        <Segment>
-          <img src="https://react.semantic-ui.com/images/wireframe/media-paragraph.png" />
-        </Segment> */}
       </div>
     );
   }

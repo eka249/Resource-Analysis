@@ -18,11 +18,29 @@ import {
   Redirect,
   useHistory
 } from "react-router-dom";
+
 class App extends Component {
+  componentDidMount() {
+    fetch("http://localhost:3000/users", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(data =>
+        this.setState({
+          employees: data
+        })
+      );
+  }
   state = {
     logged_in: false,
     user: null,
-    redirect: true
+    redirect: true,
+    employees: []
   };
 
   getLoggedIn = data => {
@@ -32,11 +50,12 @@ class App extends Component {
   };
 
   logOut = () => {
-    localStorage.removeItem("jwt");
+    localStorage.jwt = null;
     this.setState(prevState => {
       return {
         logged_in: false,
-        user: null
+        user: null,
+        redirect: true
       };
     });
   };
@@ -54,6 +73,7 @@ class App extends Component {
               loggedIn={this.state.logged_in}
             />
             <AdminHome
+              employees={this.state.employees}
               logOut={this.logOut}
               user={this.state.user}
               loggedIn={this.state.logged_in}
@@ -91,13 +111,32 @@ class App extends Component {
 }
 
 export default App;
-
-//   if (user.role === "admin") {
-//   this.props.history.push("/admin");
-// } else if (this.state.user.role === "manager") {
-//   this.props.history.push("/manager");
-// } else if (this.state.user.role === "emp") {
-//   this.props.history.push("/emphome");
-// } else {
-// console.log("you're getting an error message"));
-// ()=>this.redirectSignIn());
+// let tasks = this.state.tasks.map(task =>
+//   task.user_id === this.state.user_id
+//     ? // <li key={task.id}>
+//       //   {task.description}
+//       //   <button
+//       //     className="deleteButton"
+//       //     key={task.id}
+//       //     onClick={e => this.handleDeleteTask(e, task.id)}
+//       //   >
+//       //     X
+//       //   </button>
+//       // </li>
+//       task
+//     : null
+// );
+// let mytasks = tasks.filter(task => (task !== null ? task.project : null));
+// let myprojects = mytasks.map(project => project.project.title);
+// let uniqueProjects = new Set(myprojects);
+// let userProjects = [...uniqueProjects];
+// let myprojectids = mytasks.map(project => project.project_id);
+// let uniqueProjectIds = new Set(myprojectids);
+// let userProjectIds = [...uniqueProjectIds];
+// // .map(task => task.project);
+// console.log("Tasks", { tasks });
+// console.log("MyTasks", { mytasks });
+// console.log("MyTasks", { myprojects });
+// console.log("MyTasks", { myprojectids });
+// console.log(userProjects);
+// console.log(userProjectIds);

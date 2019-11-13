@@ -16,31 +16,67 @@ class TaskDetails extends Component {
       logged_in: true
     });
   };
+  handleEditTask = (task, notes) => {
+    fetch(`http://localhost:3000/tasks/${task}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify({
+        notes: notes
+      })
+    });
+  };
+
+  handleCompleteTask = task => {
+    fetch(`http://localhost:3000/tasks/${task}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      },
+      body: JSON.stringify({
+        completed: 1
+      })
+    });
+  };
 
   render() {
+    // console.log(this.props);
     return (
       <List celled>
         <List.Item>
-          <List.Content>
-            <List.Header>{this.props.task.description}</List.Header>
-            {/* {this.props.task.user_id} */}
-          </List.Content>
+          <List.Header>{this.props.myTask.description}</List.Header>
+          <List.Description>
+            Assigned to:
+            {this.props.myTask.emp_id}
+          </List.Description>
+          <List.Description>
+            Client:
+            {this.props.myTask.client}
+          </List.Description>
+
           <List.Content floated="right">
-            <Button onClick={this.showModal}>Add notes</Button>
+            <Button onClick={this.showModal}>Edit</Button>
           </List.Content>
           <List.Content floated="right">
             <Button
-              onClick={() => this.props.handleCompleteTask(this.props.task.id)}
+              onClick={() => this.handleCompleteTask(this.props.myTask.id)}
             >
               Mark as Complete
             </Button>
+          </List.Content>
+          <List.Content>
             {this.state.show ? (
               <AddNotesToTask
-                task={this.props.task}
-                // logged_in={this.state.logged_in}
-                // user={this.state.user}
-                // getLoggedIn={this.getLoggedIn}
+                myTask={this.props.myTask}
+                logged_in={this.state.logged_in}
+                user={this.props.user}
                 showModal={this.showModal}
+                handleEditTask={this.handleEditTask}
               />
             ) : null}
           </List.Content>

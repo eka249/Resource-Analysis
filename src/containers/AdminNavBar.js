@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Segment } from "semantic-ui-react";
-import TaskList from "./TaskList";
-import ChartContainer from "../components/manager/ChartContainer ";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 class AdminNavBar extends React.Component {
   //   componentDidMount = () => {};
@@ -35,10 +33,6 @@ class AdminNavBar extends React.Component {
             />
           </Menu.Menu>
         </Menu>
-        {/* 
-        <Segment>
-          <img src="https://react.semantic-ui.com/images/wireframe/media-paragraph.png" />
-        </Segment> */}
       </div>
     );
   }

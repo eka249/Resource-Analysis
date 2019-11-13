@@ -1,64 +1,46 @@
-//TEMPLATE FOR LATER
-import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  useHistory,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import React, { Component } from "react";
+import { List, Button } from "semantic-ui-react";
+import UserDetails from "../components/admin/UserDetails";
+import AddNewUser from "../components/admin/addNewUser";
 
-class AdminHome extends React.Component {
+class AdminHome extends Component {
+  state = {
+    show: false,
+    employees: this.props.employees,
+    user: this.props.user
+  };
+
+  showModal = () => {
+    this.setState({
+      show: !this.state.show,
+      logged_in: true
+    });
+  };
+
   render() {
-    console.log("renered admin pgge");
-    return <div>admin home</div>;
+    return (
+      <div>
+        <Button animated="fade" onClick={this.showModal} floated="right">
+          <Button.Content visible>New User</Button.Content>
+          <Button.Content hidden>New User</Button.Content>
+        </Button>
+        <List>
+          {this.state.employees.map(emp => {
+            return (
+              <List.Item emp={emp}>
+                <List.Content>
+                  <List.Header>{emp.first_name}</List.Header>
+                  <List.Description>
+                    whatever more attributes to put here
+                  </List.Description>
+                </List.Content>
+              </List.Item>
+            );
+          })}
+        </List>
+        {this.state.show ? <AddNewUser user={this.user} /> : null}
+      </div>
+    );
   }
-
-  /* <AddNewUser user={this.user} />; */
 }
-export default withRouter(AdminHome);
-
-// <Modal.Content>
-//           <Header content="Or Sign Up!" as="h3"></Header>
-
-//           <Form.Input
-//             label="Your Name"
-//             // required
-//             type="text"
-//             placeholder="User"
-//             name="newName"
-//             id="newName"
-//             // value={this.state.newUser.newName}
-//             onChange={this.handleChange}
-//           />
-//           <Form.Input
-//             label=" New username "
-//             // required
-//             type="text"
-//             placeholder="Username"
-//             name="newUsername"
-//             id="newUsername"
-//             // value={this.state.newUser.newUsername}
-//             onChange={this.handleChange}
-//           />
-//           <Form.Input
-//             label=" New password "
-//             // required
-//             type="password"
-//             placeholder="Password"
-//             name="newPassword"
-//             id="newPassword"
-//             // value={this.state.newUser.newPassword}
-//             onChange={this.handleChange}
-//           />
-//         </Modal.Content>
-//         <Modal.Actions>
-//           <Button
-//             // type="submit"
-//             onClick={this.handleSignUp}
-//             color="green"
-//             icon="pencil"
-//             content="Sign Up!"
-//           />
-//         </Modal.Actions>
+export default AdminHome;
