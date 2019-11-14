@@ -29,7 +29,7 @@ class FilterEmpForm extends Component {
               <TaskDetails
                 key={index}
                 myTask={task}
-                handleFetchTasks={this.props.handleFetchTasks}
+                fetchMyTasks={this.props.fetchMyTasks}
                 employees={this.props.employees}
               />
             </div>
@@ -55,8 +55,9 @@ class FilterEmpForm extends Component {
                   key={index}
                   myTask={task}
                   handleCompleteTask={this.handleCompleteTask}
-                  handleEditTask={this.handleEditTask}
+                  // handleEditTask={this.handleEditTask}
                   employees={this.props.employees}
+                  handleFetchAllTasks={this.props.handleFetchAllTasks}
                 />
               </div>
             );

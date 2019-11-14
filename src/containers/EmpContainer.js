@@ -12,7 +12,7 @@ class EmpContainer extends React.Component {
       allMyTasks: []
     };
   }
-  fetchTasks = () => {
+  fetchMyTasks = () => {
     fetch("http://localhost:3000/tasks", {
       method: "GET",
       headers: {
@@ -34,6 +34,7 @@ class EmpContainer extends React.Component {
 
       .catch(err => console.log(err));
   };
+
   render() {
     return (
       <div>
@@ -44,7 +45,7 @@ class EmpContainer extends React.Component {
               <FilterEmpForm
                 user={this.props.user}
                 unfilteredTaskList={this.state.allMyTasks}
-                handleFetchTasks={this.fetchTasks}
+                fetchMyTasks={this.fetchMyTasks}
               />
             </Grid.Column>
           </Grid.Row>

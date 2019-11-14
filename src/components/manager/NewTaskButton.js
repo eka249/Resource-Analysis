@@ -68,7 +68,7 @@ class NewTaskButton extends Component {
       })
     })
       .then(this.handleClose())
-      .then(this.props.fetchTasks);
+      .then(this.props.fetchAllTasks);
   };
 
   employeeOptions = () => {

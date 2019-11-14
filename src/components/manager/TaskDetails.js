@@ -18,7 +18,7 @@ class TaskDetails extends Component {
       body: JSON.stringify({
         notes: notes
       })
-    }).then(this.props.handleFetchTasks);
+    }).then(this.props.handleFetchAllTasks);
   };
 
   handleCompleteTask = task => {
@@ -32,7 +32,7 @@ class TaskDetails extends Component {
       body: JSON.stringify({
         completed: 1
       })
-    }).then(this.props.handleFetchTasks);
+    }).then(this.props.fetchAllTasks);
   };
 
   render() {
@@ -63,7 +63,7 @@ class TaskDetails extends Component {
             <AddNotesToTask
               myTask={this.props.myTask}
               user={this.props.user}
-              handleEditTask={this.handleEditTask}
+              handleEditTask={this.props.handleCompleteTask}
             />
           </List.Content>
         </List.Item>
