@@ -21,41 +21,52 @@ import {
 
 class App extends Component {
   componentDidMount() {
-    fetch("http://localhost:3000/users", {
+    this.state = {
+      logged_in: false,
+      user: null,
+      redirect: true,
+      employees: []
+    };
+  }
+
+  getLoggedIn = data => {
+    console.log("hits get logged in  app");
+    // console.log(data);
+    fetch(`http://localhost:3000/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        Accepts: "application/json",
         Authorization: `Bearer ${localStorage.token}`
       }
     })
-      .then(resp => resp.json())
-      .then(data =>
-        this.setState({
-          employees: data
-        })
-      );
-  }
-  state = {
-    logged_in: false,
-    user: null,
-    redirect: true,
-    employees: []
+      .then(response => response.json())
+      .then(data => {
+        this.setState(prevState => {
+          return { logged_in: true, user: data.user };
+        });
+      });
   };
 
-  getLoggedIn = data => {
-    this.setState(prevState => {
-      return { logged_in: true, user: data };
-    });
-  };
+  // getUser = () => {
+  //   fetch(`http://localhost:3000/users/${this.state.user.id}`)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setState(prevState => {
+  //         return {
+  //           logged_in: true,
+  //           user: data
+  //         };
+  //       });
+  //     });
+  // };
 
   logOut = () => {
-    localStorage.jwt = null;
+    localStorage.removeItem("token");
     this.setState(prevState => {
       return {
         logged_in: false,
-        user: null,
-        redirect: true
+        user: null
       };
     });
   };
@@ -65,8 +76,13 @@ class App extends Component {
         <Router>
           <Route exact path="/">
             <SignIn getLoggedIn={this.getLoggedIn}></SignIn>
+            {/* <UserNavBar
+              logOut={this.logOut}
+              user={this.state.user}
+              loggedIn={this.state.logged_in}
+            /> */}
           </Route>
-          <Route path="/admin">
+          {/* <Route path="/admin">
             <AdminNavBar
               logOut={this.logOut}
               user={this.state.user}
@@ -78,8 +94,8 @@ class App extends Component {
               user={this.state.user}
               loggedIn={this.state.logged_in}
             />
-          </Route>
-
+          </Route> */}
+          {/* 
           <Route path="/manager">
             <UserNavBar
               logOut={this.logOut}
@@ -91,8 +107,8 @@ class App extends Component {
               user={this.state.user}
               loggedIn={this.state.logged_in}
             />
-          </Route>
-          <Route path="/employee">
+          </Route> */}
+          {/* <Route path="/employee">
             <UserNavBar
               logOut={this.logOut}
               user={this.state.user}
@@ -103,7 +119,7 @@ class App extends Component {
               user={this.state.user}
               loggedIn={this.state.logged_in}
             />
-          </Route>
+          </Route> */}
         </Router>
       </div>
     );

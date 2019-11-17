@@ -11,12 +11,14 @@ class AdminHome extends Component {
   render() {
     return (
       <div>
-        <AddNewUser user={this.props.user} />
-        <List celled>
-          {this.props.employees.map((emp, index) => {
-            return <UserList key={index} emp={emp} />;
-          })}
-        </List>
+        {this.props.employees.map((emp, index) => {
+          return (
+            <div>
+              <UserList key={index} emp={emp} />
+            </div>
+          );
+        })}
+        <AddNewUser user={this.props.user} employees={this.props.employees} />
       </div>
     );
   }
