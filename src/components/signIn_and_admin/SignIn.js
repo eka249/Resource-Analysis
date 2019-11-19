@@ -12,7 +12,8 @@ class SignIn extends Component {
   state = {
     email: "",
     password: "",
-    user_id: ""
+    user_id: "",
+    role: "test"
   };
   handleChange = e => {
     let inputVal = e.target.name;
@@ -21,6 +22,7 @@ class SignIn extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    // console.log("the event", e.target);
     //routes to auth#create on backend to recieve token
     fetch("http://localhost:3000/login", {
       method: "POST",
@@ -35,20 +37,15 @@ class SignIn extends Component {
       })
     })
       .then(response => response.json())
-      // .then(data => console.log(data.user))
       .then(json => {
         if (json.jwt) {
           localStorage.setItem("token", json.jwt);
-          // debugger
           this.props.getLoggedIn(json);
+          this.setState({ role: json.user.role });
         }
       });
     //add more actions depending on user
   };
-  //     .then(data => {
-  //       this.props.history.push(`/${data.user.role}`);
-  //     });
-  // };
 
   render() {
     return (

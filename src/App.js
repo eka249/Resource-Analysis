@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import SignIn from "./components/signIn_and_admin/SignIn";
 import "./App.css";
+import { history } from "./authorizationHelpers/history";
 import AddNewUser from "./components/admin/addNewUser";
 import ManagerContainer from "./containers/ManagerContainer";
 import AdminHome from "./containers/AdminHome";
@@ -18,21 +18,44 @@ import {
   Redirect,
   useHistory
 } from "react-router-dom";
+import { getOverlappingDaysInIntervals } from "date-fns";
 
 class App extends Component {
-  componentDidMount() {
-    this.state = {
-      logged_in: false,
-      user: null,
-      redirect: true,
-      employees: []
-    };
-  }
-
+  state = {
+    logged_in: false,
+    user: null,
+    redirect: true,
+    employees: [],
+    role: null
+  };
   getLoggedIn = data => {
-    console.log("hits get logged in  app");
+    console.log("hits get logged in  app", data);
     // console.log(data);
-    fetch(`http://localhost:3000/profile`, {
+    return (
+      fetch(`http://localhost:3000/profile`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accepts: "application/json",
+          Authorization: `Bearer ${localStorage.token}`
+        }
+      })
+        .then(response => response.json())
+        .then(this.getRole(data))
+        // .then(data => this.getRole(data));
+        .then(this.setState({ user: data.user, logged_in: true }))
+      // .then(this.props.history.push(`/${this.state.role}`))
+    );
+
+    // .then(this.getRole(this.state.user.id));
+    // .then(data => console.log("this is the data", data.user.id));
+
+    // .then(console.log(("this should be the user id", this.state.user.id)));
+  };
+
+  getRole = data => {
+    console.log("hit getrole", data.user);
+    fetch(`http://localhost:3000/users/${data.user.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -41,25 +64,13 @@ class App extends Component {
       }
     })
       .then(response => response.json())
-      .then(data => {
-        this.setState(prevState => {
-          return { logged_in: true, user: data.user };
-        });
-      });
+      // .then(data => console.log("output from getRole fetch", data.role));
+      .then(
+        this.setState({
+          role: data.user.role
+        })
+      );
   };
-
-  // getUser = () => {
-  //   fetch(`http://localhost:3000/users/${this.state.user.id}`)
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       this.setState(prevState => {
-  //         return {
-  //           logged_in: true,
-  //           user: data
-  //         };
-  //       });
-  //     });
-  // };
 
   logOut = () => {
     localStorage.removeItem("token");
@@ -72,16 +83,13 @@ class App extends Component {
   };
   render() {
     return (
-      <div>
-        <Router>
-          <Route exact path="/">
+      <Router history={history}>
+        <div>
+          {current_user}
+          <Route exact path="/login">
             <SignIn getLoggedIn={this.getLoggedIn}></SignIn>
-            {/* <UserNavBar
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            /> */}
           </Route>
+          {/* {this.state.logged_in && this.state.user.role ==="admin" ? ( */}
           {/* <Route path="/admin">
             <AdminNavBar
               logOut={this.logOut}
@@ -95,19 +103,29 @@ class App extends Component {
               loggedIn={this.state.logged_in}
             />
           </Route> */}
-          {/* 
-          <Route path="/manager">
-            <UserNavBar
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-            <ManagerContainer
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-          </Route> */}
+
+          <Route
+            exact
+            path="/manager"
+            render={props => (
+              // [
+              //   <UserNavBar
+              //     logOut={this.logOut}
+              //     user={this.state.user}
+              //     loggedIn={this.state.logged_in}
+              //     {...props}
+              //   />
+              // ],
+
+              <ManagerContainer
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
+            )}
+          />
+
           {/* <Route path="/employee">
             <UserNavBar
               logOut={this.logOut}
