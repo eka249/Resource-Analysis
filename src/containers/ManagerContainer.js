@@ -30,9 +30,9 @@ class ManagerContainer extends React.Component {
           employees: data
         })
       );
-    this.fetchTasks();
+    this.handleFetchAllTasks();
   }
-  fetchTasks = () => {
+  handleFetchAllTasks = () => {
     fetch("http://localhost:3000/tasks", {
       method: "GET",
       headers: {
@@ -68,12 +68,12 @@ class ManagerContainer extends React.Component {
                 user={this.props.user}
                 unfilteredTaskList={this.state.allMyTasks}
                 employees={this.state.employees}
-                handleFetchTasks={this.fetchTasks}
+                handleFetchAllTasks={this.handleFetchAllTasks}
               />
               <Grid.Column>
                 <NewTaskButton
                   user={this.props.user}
-                  fetchTasks={this.fetchTasks}
+                  handleFetchAllTasks={this.handleFetchAllTasks}
                   employees={this.state.employees}
                 />
               </Grid.Column>

@@ -60,8 +60,6 @@ class AddNewUser extends Component {
               onClick={this.handleOpen}
               animated="fade"
               floaded="right"
-              type="submit"
-              onClick={this.submitNewUser}
               color="green"
               content="Create New User"
             >

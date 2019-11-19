@@ -27,12 +27,15 @@ class UserNavBar extends React.Component {
           />
           <Menu.Menu position="right">
             <Menu.Item
+              // <Link to="/" active={activeItem === "logout"}
+              // onClick={this.props.logOut}/>
+
               as={Link}
               to="/"
               name="logout"
               active={activeItem === "logout"}
               onClick={this.props.logOut}
-            />
+            ></Menu.Item>
           </Menu.Menu>
         </Menu>
       </div>

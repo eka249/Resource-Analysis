@@ -46,7 +46,11 @@ class AddNotesToTask extends Component {
           </Form>
         </Modal.Content>
         <Modal.Actions>
-          <Button color="green" primary onClick={this.handleSaveChange}>
+          <Button
+            color="green"
+            // primary onClick={this.handleSaveChange}
+            //finish patching later
+          >
             Save Edits
           </Button>
         </Modal.Actions>
