@@ -31,7 +31,7 @@ class UserNavBar extends React.Component {
               // onClick={this.props.logOut}/>
 
               as={Link}
-              to="/"
+              to="/login"
               name="logout"
               active={activeItem === "logout"}
               onClick={this.props.logOut}

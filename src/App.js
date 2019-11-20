@@ -228,10 +228,10 @@ class App extends Component {
             </div>
           )}
         />
-      ) : this.state.logged_in && this.state.role === "employee" ? (
+      ) : this.state.logged_in && this.state.role === "emp" ? (
         <Route
           exact
-          path="/employee"
+          path="/emp"
           render={props => (
             <div>
               <UserNavBar

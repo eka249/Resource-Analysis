@@ -28,7 +28,7 @@ class AdminNavBar extends React.Component {
             </Menu.Item> */}
             <Menu.Item
               as={Link}
-              to="/"
+              to="/login"
               name="logout"
               active={activeItem === "logout"}
               onClick={this.props.logOut}
