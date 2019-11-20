@@ -21,12 +21,94 @@ import {
 import { getOverlappingDaysInIntervals } from "date-fns";
 
 class App extends Component {
+  // state = {
+  //   logged_in: true,
+  //   user: {
+  //     email: "2@2.com",
+  //     first_name: "asif test",
+  //     last_name: "idk his last name test",
+  //     unit: "mod5",
+  //     password: "1234",
+  //     role: "manager"
+  //   },
+  //   redirect: true,
+  //   employees: [
+  //     {
+  //       email: "3@3.com",
+  //       first_name: "j test",
+  //       last_name: "idk his last name test2",
+  //       unit: "closest to admin",
+  //       password: "1234",
+  //       role: "emp"
+  //     },
+  //     {
+  //       email: "4@4.com",
+  //       first_name: "Jared",
+  //       last_name: "idk his last name test3",
+  //       unit: "mod5",
+  //       password: "1234",
+  //       role: "emp"
+  //     }
+  //   ],
+  //   role: "manager",
+  //   current_user: null
+  // };
+  // state = {
+  //   logged_in: true,
+  //   user: {
+  //     email: "2@2.com",
+  //     first_name: "asif test",
+  //     last_name: "idk his last name test",
+  //     unit: "mod5",
+  //     password: "1234",
+  //     role: "admin"
+  //   },
+  //   redirect: true,
+  //   employees: [
+  //     {
+  //       email: "3@3.com",
+  //       first_name: "j test",
+  //       last_name: "idk his last name test2",
+  //       unit: "closest to admin",
+  //       password: "1234",
+  //       role: "emp"
+  //     },
+  //     {
+  //       email: "4@4.com",
+  //       first_name: "Jared",
+  //       last_name: "idk his last name test3",
+  //       unit: "mod5",
+  //       password: "1234",
+  //       role: "emp"
+  //     }
+  //   ],
+  //   role: "admin",
+  //   current_user: null
+  // };
   state = {
     logged_in: false,
     user: null,
     redirect: true,
-    employees: [],
-    role: null
+    // employees: [
+    //   {
+    //     email: "3@3.com",
+    //     first_name: "j test",
+    //     last_name: "idk his last name test2",
+    //     unit: "closest to admin",
+    //     password: "1234",
+    //     role: "emp"
+    //   },
+    //   {
+    //     email: "4@4.com",
+    //     first_name: "Jared",
+    //     last_name: "idk his last name test3",
+    //     unit: "mod5",
+    //     password: "1234",
+    //     role: "emp"
+    //   }
+    // ],
+    role: null,
+    current_user: null
   };
   getLoggedIn = data => {
     console.log("hits get logged in  app", data);
@@ -81,67 +163,148 @@ class App extends Component {
       };
     });
   };
+
   render() {
-    return (
-      <Router history={history}>
-        <div>
-          {current_user}
-          <Route exact path="/login">
-            <SignIn getLoggedIn={this.getLoggedIn}></SignIn>
-          </Route>
-          {/* {this.state.logged_in && this.state.user.role ==="admin" ? ( */}
-          {/* <Route path="/admin">
-            <AdminNavBar
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-            <AdminHome
-              employees={this.state.employees}
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-          </Route> */}
-
-          <Route
-            exact
-            path="/manager"
-            render={props => (
-              // [
-              //   <UserNavBar
-              //     logOut={this.logOut}
-              //     user={this.state.user}
-              //     loggedIn={this.state.logged_in}
-              //     {...props}
-              //   />
-              // ],
-
+    let status =
+      this.state.logged_in && this.state.role === "admin" ? (
+        <Route
+          exact
+          path="/admin"
+          render={props => (
+            <div>
+              <AdminNavBar
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
+              <AdminHome
+                employees={this.state.employees}
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
+            </div>
+          )}
+        />
+      ) : this.state.logged_in && this.state.role === "manager" ? (
+        <Route
+          exact
+          path="/manager"
+          render={props => (
+            <div>
+              <UserNavBar
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
               <ManagerContainer
                 logOut={this.logOut}
                 user={this.state.user}
                 loggedIn={this.state.logged_in}
                 {...props}
               />
+            </div>
+          )}
+        />
+      ) : this.state.logged_in && this.state.role === "employee" ? (
+        <Route
+          exact
+          path="/employee"
+          render={props => (
+            <div>
+              <UserNavBar
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
+              <EmpContainer
+                logOut={this.logOut}
+                user={this.state.user}
+                loggedIn={this.state.logged_in}
+                {...props}
+              />
+            </div>
+          )}
+        />
+      ) : null;
+    return (
+      <div>
+        <Router>
+          <Route
+            exact
+            path="/login"
+            render={props => (
+              <SignIn getLoggedIn={this.getLoggedIn} {...props} />
             )}
           />
-
-          {/* <Route path="/employee">
-            <UserNavBar
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-            <EmpContainer
-              logOut={this.logOut}
-              user={this.state.user}
-              loggedIn={this.state.logged_in}
-            />
-          </Route> */}
+          {status}
         </Router>
       </div>
     );
   }
+
+  //     <Router history={history}>
+  //       <div>
+  //         {this.state.user}
+  //         <Route exact path="/login">
+  //           <SignIn getLoggedIn={this.getLoggedIn}></SignIn>
+  //         </Route>
+  //         {/* {this.state.logged_in && this.state.user.role ==="admin" ? ( */}
+  //         {/* <Route path="/admin">
+  //           <AdminNavBar
+  //             logOut={this.logOut}
+  //             user={this.state.user}
+  //             loggedIn={this.state.logged_in}
+  //           />
+  //           <AdminHome
+  //             employees={this.state.employees}
+  //             logOut={this.logOut}
+  //             user={this.state.user}
+  //             loggedIn={this.state.logged_in}
+  //           />
+  //         </Route> */}
+
+  //         <Route
+  //           exact
+  //           path="/manager"
+  //           render={props => (
+  //             // [
+  //             //   <UserNavBar
+  //             //     logOut={this.logOut}
+  //             //     user={this.state.user}
+  //             //     loggedIn={this.state.logged_in}
+  //             //     {...props}
+  //             //   />
+  //             // ],
+  //             <ManagerContainer
+  //               logOut={this.logOut}
+  //               user={this.state.user}
+  //               loggedIn={this.state.logged_in}
+  //               {...props}
+  //             />
+  //           )}
+  //         />
+
+  //         <Route path="/employee">
+  //           <UserNavBar
+  //             logOut={this.logOut}
+  //             user={this.state.user}
+  //             loggedIn={this.state.logged_in}
+  //           />
+  //           {/* <EmpContainer
+  //             logOut={this.logOut}
+  //             user={this.state.user}
+  //             loggedIn={this.state.logged_in}
+  //           /> */}
+  //         </Route>
+  //       </div>
+  //     </Router>
+  //   );
+  // }
 }
 
 export default App;

@@ -7,6 +7,7 @@ import NewTaskButton from "../components/manager/NewTaskButton";
 class ManagerContainer extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       user: this.props.user,
       employees: [],

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,7 +14,7 @@ class SignIn extends Component {
     email: "",
     password: "",
     user_id: "",
-    role: "test"
+    role: ""
   };
   handleChange = e => {
     let inputVal = e.target.name;
@@ -22,7 +23,6 @@ class SignIn extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    // console.log("the event", e.target);
     //routes to auth#create on backend to recieve token
     fetch("http://localhost:3000/login", {
       method: "POST",
@@ -43,8 +43,8 @@ class SignIn extends Component {
           this.props.getLoggedIn(json);
           this.setState({ role: json.user.role });
         }
-      });
-    //add more actions depending on user
+      })
+      .then(() => this.props.history.push(`/${this.state.role}`));
   };
 
   render() {
@@ -64,7 +64,13 @@ class SignIn extends Component {
           placeholder="Password"
           onChange={this.handleChange}
         ></input>
-        <button type="submit">Submit</button>
+        <button
+          type="submit"
+          value="Submit"
+          onClick={e => this.handleSubmit(e)}
+        >
+          Submit
+        </button>
       </form>
     );
   }

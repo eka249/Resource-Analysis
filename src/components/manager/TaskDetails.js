@@ -37,16 +37,16 @@ class TaskDetails extends Component {
 
   render() {
     // console.log(this.props);
-    let assignment = this.props.employees.filter(
-      emp => emp.id === this.props.myTask.emp_id
-    );
+    // let assignment = this.props.employees.filter(
+    //   emp => emp.id === this.props.myTask.emp_id
+    // );
     return (
       <List celled>
         <List.Item>
           <List.Header>{this.props.myTask.description}</List.Header>
           <List.Description>
             Assigned to:
-            {assignment.first_name}
+            {/* {assignment.first_name} */}
           </List.Description>
           <List.Description>
             Client:
