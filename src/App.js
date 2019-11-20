@@ -108,7 +108,8 @@ class App extends Component {
     //   }
     // ],
     role: null,
-    current_user: null
+    current_user: null,
+    employees: []
   };
   getLoggedIn = data => {
     console.log("hits get logged in  app", data);
@@ -126,6 +127,7 @@ class App extends Component {
         .then(this.getRole(data))
         // .then(data => this.getRole(data));
         .then(this.setState({ user: data.user, logged_in: true }))
+        .then(this.getUsers())
       // .then(this.props.history.push(`/${this.state.role}`))
     );
 
@@ -133,6 +135,23 @@ class App extends Component {
     // .then(data => console.log("this is the data", data.user.id));
 
     // .then(console.log(("this should be the user id", this.state.user.id)));
+  };
+  getUsers = () => {
+    fetch(`http://localhost:3000/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+      .then(resp => resp.json())
+      // .then(data => console.log(data))
+      .then(data =>
+        this.setState({
+          employees: data
+        })
+      );
   };
 
   getRole = data => {

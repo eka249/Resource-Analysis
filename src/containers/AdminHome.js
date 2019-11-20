@@ -5,20 +5,18 @@ import AddNewUser from "../components/admin/addNewUser";
 
 class AdminHome extends Component {
   state = {
-    show: false
+    allEmps: null
   };
 
   render() {
+    let empList = this.props.employees.map((emp, index) => {
+      return <UserList key={index} emp={emp} />;
+    });
+
     return (
       <div>
-        {this.props.employees.map((emp, index) => {
-          return (
-            <div>
-              <UserList key={index} emp={emp} />
-            </div>
-          );
-        })}
-        <AddNewUser user={this.props.user} employees={this.props.employees} />
+        <AddNewUser />
+        {empList}
       </div>
     );
   }
