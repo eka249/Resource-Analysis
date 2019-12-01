@@ -14,11 +14,10 @@ class AddNewUser extends Component {
     modalOpen: false
   };
   handleChange = e => {
-    let inputVal = e.target.id;
-    this.setState({ ...this.state, [inputVal]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
-  submitNewUser = e => {
-    e.preventDefault();
+  submitNewUser = () => {
+    // e.preventDefault();
     console.log("started post new user from front end");
     fetch("http://localhost:3000/users", {
       method: "POST",
@@ -37,7 +36,6 @@ class AddNewUser extends Component {
       })
     })
       .then(response => response.json())
-      .then(this.handleClose)
       .then(data => {
         console.log("after sign up form", data);
       });
@@ -87,6 +85,7 @@ class AddNewUser extends Component {
                 type="text"
                 placeholder="Email"
                 id="email"
+                name="email"
                 // value={this.state.newUser.newUsername}
                 onChange={e => this.handleChange}
               />

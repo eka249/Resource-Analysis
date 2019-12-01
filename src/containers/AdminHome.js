@@ -7,9 +7,9 @@ class AdminHome extends Component {
   constructor() {
     super();
     this.getUsers();
-    this.state({
+    this.state = {
       allEmps: []
-    });
+    };
   }
   getUsers = () => {
     fetch(`http://localhost:3000/users`, {
@@ -21,7 +21,6 @@ class AdminHome extends Component {
       }
     })
       .then(resp => resp.json())
-      .then(data => console.log("users data when getting logged in", data))
       .then(data =>
         this.setState({
           allEmps: data
@@ -30,14 +29,14 @@ class AdminHome extends Component {
   };
 
   render() {
-    let empList = this.state.allEmps.map((emp, index) => {
-      return <UserList key={index} emp={emp} />;
-    });
-
     return (
       <div>
         <AddNewUser />
-        {/* {empList} */}
+        {this.state.allEmps.map((emp, index) => {
+          return (
+            <UserList key={index} emp={emp} allEmps={this.state.allEmps} />
+          );
+        })}
       </div>
     );
   }

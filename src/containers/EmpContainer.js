@@ -9,11 +9,12 @@ class EmpContainer extends React.Component {
     this.state = {
       user: this.props.user,
       allTasks: [],
-      allMyTasks: []
+      allMyTasks: [],
+      employees: this.props.user
     };
-    this.fetchMyTasks();
+    this.handleFetchAllTasks();
   }
-  fetchMyTasks = () => {
+  handleFetchAllTasks = () => {
     fetch("http://localhost:3000/tasks", {
       method: "GET",
       headers: {
@@ -25,11 +26,14 @@ class EmpContainer extends React.Component {
       .then(resp => resp.json())
       // .then(data => console.log("just the response", data))
       .then(data =>
+        //sets state with only tasks that are theirs or their employee's
         this.setState({
           allMyTasks: data.filter(
-            removed => removed.emp_id !== this.state.user.id
-          ),
-          allTasks: data
+            removed =>
+              (removed.user_id !== this.props.user.id ||
+                removed.emp_id !== this.props.user.id) &&
+              removed.completed == false
+          )
         })
       )
 
@@ -46,7 +50,8 @@ class EmpContainer extends React.Component {
               <FilterEmpForm
                 user={this.props.user}
                 unfilteredTaskList={this.state.allMyTasks}
-                fetchMyTasks={this.fetchMyTasks}
+                handleFetchAllTasks={this.handleFetchAllTasks}
+                employees={this.state.employees}
               />
             </Grid.Column>
           </Grid.Row>
