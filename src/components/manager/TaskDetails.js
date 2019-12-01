@@ -46,7 +46,8 @@ class TaskDetails extends Component {
           <List.Header>{this.props.myTask.description}</List.Header>
           <List.Description>
             Assigned to:
-            {/* {assignment.first_name} */}
+            {this.props.employees.first_name}
+            {this.props.employees.last_name}
           </List.Description>
           <List.Description>
             Client:
@@ -63,7 +64,7 @@ class TaskDetails extends Component {
             <AddNotesToTask
               myTask={this.props.myTask}
               user={this.props.user}
-              handleEditTask={this.props.handleCompleteTask}
+              handleEditTask={this.handleEditTask}
             />
           </List.Content>
         </List.Item>

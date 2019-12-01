@@ -11,6 +11,7 @@ class EmpContainer extends React.Component {
       allTasks: [],
       allMyTasks: []
     };
+    this.fetchMyTasks();
   }
   fetchMyTasks = () => {
     fetch("http://localhost:3000/tasks", {
@@ -26,7 +27,7 @@ class EmpContainer extends React.Component {
       .then(data =>
         this.setState({
           allMyTasks: data.filter(
-            removed => removed.emp_id !== this.props.user.id
+            removed => removed.emp_id !== this.state.user.id
           ),
           allTasks: data
         })
@@ -38,7 +39,7 @@ class EmpContainer extends React.Component {
   render() {
     return (
       <div>
-        employee page
+        <h2>Hello {this.state.user.first_name}!</h2>
         <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column>

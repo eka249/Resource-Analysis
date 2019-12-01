@@ -1,13 +1,6 @@
 import React, { Component } from "react";
-import { Form, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { Form, Header, Button, Input } from "semantic-ui-react";
 
 class SignIn extends Component {
   state = {
@@ -49,54 +42,43 @@ class SignIn extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          name="email"
-          component="input"
-          type="text"
-          placeholder="Your Email"
-          onChange={this.handleChange}
-        ></input>
-        <input
-          name="password"
-          component="input"
-          type="password"
-          placeholder="Password"
-          onChange={this.handleChange}
-        ></input>
-        <button
-          type="submit"
-          value="Submit"
-          onClick={e => this.handleSubmit(e)}
-        >
-          Submit
-        </button>
-      </form>
+      <div>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <Form>
+          <Form.Group>
+            <Form.Field
+              name="email"
+              label="Email Address"
+              id="email"
+              control={Input}
+              fluid
+              placeholder="Your Email"
+              onChange={this.handleChange}
+              width={6}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Field
+              label="Password"
+              name="password"
+              id="password"
+              control={Input}
+              fluid
+              type="password"
+              placeholder="Your Password"
+              onChange={this.handleChange}
+              width={4}
+            ></Form.Field>
+          </Form.Group>
+        </Form>
+        <Button onClick={e => this.handleSubmit(e)}>Submit</Button>
+      </div>
     );
   }
 }
 
 export default SignIn;
-
-// .then(
-//   // json.user.role === "admin"?
-//   history.push("/admin")
-// );
-// .then(json => console.log(json))
-// .then(json => {
-//   // if (json.jwt) {
-//   localStorage.setItem("token", json.jwt);
-// }
-// return json;
-// this.props.history.push("/managerhome")
-// })
-
-//   : console.log(json.user.role)
-
-// : this.props.history.push("/manager");
-
-// .then(resp => this.setState({ user: resp.user }))
-// .then(json => this.props.history.push(`/${json.user.role}`))
-// .then(() => this.props.history.push("/admin"));
-// .then(json => console.log(json.user.role));
-// .then(console.log("end of handle sign in"));

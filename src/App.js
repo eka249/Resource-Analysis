@@ -19,40 +19,10 @@ import {
   useHistory
 } from "react-router-dom";
 import { getOverlappingDaysInIntervals } from "date-fns";
+import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 class App extends Component {
-  // state = {
-  //   logged_in: true,
-  //   user: {
-  //     email: "2@2.com",
-  //     first_name: "asif test",
-  //     last_name: "idk his last name test",
-  //     unit: "mod5",
-  //     password: "1234",
-  //     role: "manager"
-  //   },
-  //   redirect: true,
-  //   employees: [
-  //     {
-  //       email: "3@3.com",
-  //       first_name: "j test",
-  //       last_name: "idk his last name test2",
-  //       unit: "closest to admin",
-  //       password: "1234",
-  //       role: "emp"
-  //     },
-  //     {
-  //       email: "4@4.com",
-  //       first_name: "Jared",
-  //       last_name: "idk his last name test3",
-  //       unit: "mod5",
-  //       password: "1234",
-  //       role: "emp"
-  //     }
-  //   ],
-  //   role: "manager",
-  //   current_user: null
-  // };
+  //during testing:
   // state = {
   //   logged_in: true,
   //   user: {
@@ -65,22 +35,22 @@ class App extends Component {
   //   },
   //   redirect: true,
   //   employees: [
-  //     {
-  //       email: "3@3.com",
-  //       first_name: "j test",
-  //       last_name: "idk his last name test2",
-  //       unit: "closest to admin",
-  //       password: "1234",
-  //       role: "emp"
-  //     },
-  //     {
-  //       email: "4@4.com",
-  //       first_name: "Jared",
-  //       last_name: "idk his last name test3",
-  //       unit: "mod5",
-  //       password: "1234",
-  //       role: "emp"
-  //     }
+  // {
+  //   email: "3@3.com",
+  //   first_name: "j test",
+  //   last_name: "idk his last name test2",
+  //   unit: "closest to admin",
+  //   password: "1234",
+  //   role: "emp"
+  // },
+  // {
+  //   email: "4@4.com",
+  //   first_name: "Jared",
+  //   last_name: "idk his last name test3",
+  //   unit: "mod5",
+  //   password: "1234",
+  //   role: "emp"
+  // }
   //   ],
   //   role: "admin",
   //   current_user: null
@@ -89,73 +59,25 @@ class App extends Component {
     logged_in: false,
     user: null,
     redirect: true,
-    // employees: [
-    //   {
-    //     email: "3@3.com",
-    //     first_name: "j test",
-    //     last_name: "idk his last name test2",
-    //     unit: "closest to admin",
-    //     password: "1234",
-    //     role: "emp"
-    //   },
-    //   {
-    //     email: "4@4.com",
-    //     first_name: "Jared",
-    //     last_name: "idk his last name test3",
-    //     unit: "mod5",
-    //     password: "1234",
-    //     role: "emp"
-    //   }
-    // ],
     role: null,
-    current_user: null,
-    employees: []
+    current_user: null
   };
   getLoggedIn = data => {
-    console.log("hits get logged in  app", data);
-    // console.log(data);
-    return (
-      fetch(`http://localhost:3000/profile`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accepts: "application/json",
-          Authorization: `Bearer ${localStorage.token}`
-        }
-      })
-        .then(response => response.json())
-        .then(this.getRole(data))
-        // .then(data => this.getRole(data));
-        .then(this.setState({ user: data.user, logged_in: true }))
-        .then(this.getUsers())
-      // .then(this.props.history.push(`/${this.state.role}`))
-    );
-
-    // .then(this.getRole(this.state.user.id));
-    // .then(data => console.log("this is the data", data.user.id));
-
-    // .then(console.log(("this should be the user id", this.state.user.id)));
-  };
-  getUsers = () => {
-    fetch(`http://localhost:3000/users`, {
+    return fetch(`http://localhost:3000/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        Accepts: "application/json",
         Authorization: `Bearer ${localStorage.token}`
       }
     })
-      .then(resp => resp.json())
-      // .then(data => console.log(data))
-      .then(data =>
-        this.setState({
-          employees: data
-        })
-      );
+      .then(response => response.json())
+      .then(this.getRole(data))
+      .then(this.setState({ user: data.user, logged_in: true }));
+    // .then(this.props.history.push(`/${this.state.role}`))
   };
 
   getRole = data => {
-    console.log("hit getrole", data.user);
     fetch(`http://localhost:3000/users/${data.user.id}`, {
       method: "GET",
       headers: {
@@ -165,7 +87,6 @@ class App extends Component {
       }
     })
       .then(response => response.json())
-      // .then(data => console.log("output from getRole fetch", data.role));
       .then(
         this.setState({
           role: data.user.role
@@ -224,6 +145,7 @@ class App extends Component {
                 user={this.state.user}
                 loggedIn={this.state.logged_in}
                 {...props}
+                employees={this.state.employees}
               />
             </div>
           )}
@@ -255,7 +177,7 @@ class App extends Component {
         <Router>
           <Route
             exact
-            path="/login"
+            path="/"
             render={props => (
               <SignIn getLoggedIn={this.getLoggedIn} {...props} />
             )}

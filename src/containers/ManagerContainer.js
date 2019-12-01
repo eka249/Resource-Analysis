@@ -26,6 +26,7 @@ class ManagerContainer extends React.Component {
       }
     })
       .then(resp => resp.json())
+      .then(data => console.log(data))
       .then(data =>
         this.setState({
           employees: data
@@ -63,6 +64,15 @@ class ManagerContainer extends React.Component {
       <div>
         <h1>Hello {this.state.user.first_name} !</h1>
         <Grid divided="vertically">
+          <Grid.Row columns={1}>
+            <Grid.Column>
+              <NewTaskButton
+                user={this.props.user}
+                handleFetchAllTasks={this.handleFetchAllTasks}
+                employees={this.state.employees}
+              />
+            </Grid.Column>
+          </Grid.Row>
           <Grid.Row columns={2}>
             <Grid.Column>
               <FilterEmpForm
@@ -71,13 +81,6 @@ class ManagerContainer extends React.Component {
                 employees={this.state.employees}
                 handleFetchAllTasks={this.handleFetchAllTasks}
               />
-              <Grid.Column>
-                <NewTaskButton
-                  user={this.props.user}
-                  handleFetchAllTasks={this.handleFetchAllTasks}
-                  employees={this.state.employees}
-                />
-              </Grid.Column>
             </Grid.Column>
             <Grid.Column>
               <ChartContainer

@@ -6,12 +6,8 @@ import {
   Header,
   Button,
   Select,
-  Dropdown,
-  Image,
-  Icon,
-  Container,
-  Divider,
-  Message
+  Input,
+  TextArea
 } from "semantic-ui-react";
 import moment from "moment";
 import DatePicker from "react-datepicker";
@@ -26,16 +22,22 @@ class NewTaskButton extends Component {
     title: "",
     assigned_to: "",
     client: "",
-    assigned_date: "",
-    completed_date: "",
+    assigned_date: moment().toDate(),
+    completed_date: moment().toDate(),
     description: "",
-    notes: "",
-    date: moment().toDate()
+    notes: ""
   };
 
-  handleOpen = () => this.setState({ modalOpen: true });
+  showModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    });
+  };
 
-  handleClose = () => this.setState({ modalOpen: false });
+  handleFrontEndSubmit = () => {
+    this.handleAddTask();
+    this.showModal();
+  };
 
   handleChange = e => {
     let fieldName = e.target.id;
@@ -46,7 +48,6 @@ class NewTaskButton extends Component {
   };
 
   handleAddTask = () => {
-    console.log("reached handle add task");
     fetch("http://localhost:3000/tasks", {
       method: "POST",
       headers: {
@@ -57,7 +58,7 @@ class NewTaskButton extends Component {
       body: JSON.stringify({
         user_id: this.state.user.id,
         title: this.state.title,
-        emp_id: 1,
+        emp_id: 7,
         client: this.state.client,
         start_date: this.state.assigned_date,
         end_date: this.state.completed_date,
@@ -66,9 +67,7 @@ class NewTaskButton extends Component {
         comp_date: null,
         completed: 0
       })
-    })
-      .then(this.handleClose())
-      .then(this.props.fetchAllTasks);
+    }).then(this.props.fetchAllTasks);
   };
 
   employeeOptions = () => {
@@ -96,21 +95,25 @@ class NewTaskButton extends Component {
     return (
       <Modal
         size="large"
-        trigger={<Button onClick={this.handleOpen}>Create New Task</Button>}
+        trigger={<Button onClick={this.showModal}>Create New Task</Button>}
+        open={this.state.modalOpen}
+        onClose={this.showModal}
       >
-        <Modal.Header>New Task</Modal.Header>
+        <Header>New Task</Header>
         <Modal.Content>
           <Form>
             <Form.Group widths="equal">
-              <Form.Input
+              <Form.Field
                 fluid
+                control={Input}
                 label="New Task"
                 name="title"
                 placeholder="Task Title"
                 id="title"
                 onChange={this.handleChange}
               />
-              <Form.Input
+              <Form.Field
+                control={Input}
                 fluid
                 label="Description"
                 name="description"
@@ -118,7 +121,8 @@ class NewTaskButton extends Component {
                 id="description"
                 onChange={this.handleChange}
               />
-              <Form.Input
+              <Form.Field
+                control={Input}
                 fluid
                 label="Client"
                 name="client"
@@ -127,7 +131,7 @@ class NewTaskButton extends Component {
                 onChange={this.handleChange}
               />
 
-              <Form.Input
+              <Form.Field
                 fluid
                 label="Assign To"
                 control={Select}
@@ -143,7 +147,7 @@ class NewTaskButton extends Component {
             <DatePicker
               name="assigned_date"
               id="assigned_date"
-              selected={this.state.date}
+              selected={this.state.assigned_date}
               onChange={this.handleChangeDate}
             />
             <Header>Select End Date</Header>
@@ -151,10 +155,11 @@ class NewTaskButton extends Component {
             <DatePicker
               id="completed_date"
               name="completed_date"
-              selected={this.state.date}
+              selected={this.state.completed_date}
               onChange={this.handleChangeDate}
             />
-            <Form.TextArea
+            <Form.Field
+              control={TextArea}
               label="Notes"
               id="notes"
               placeholder="Notes (optional)"
@@ -165,7 +170,7 @@ class NewTaskButton extends Component {
         </Modal.Content>
 
         <Modal.Actions>
-          <Button primary onClick={this.handleAddTask}>
+          <Button primary onClick={this.handleFrontEndSubmit}>
             Submit
           </Button>
         </Modal.Actions>
@@ -173,32 +178,4 @@ class NewTaskButton extends Component {
     );
   }
 }
-//       <Modal as={Form} open={true} size="small" className="c-modal">
-//         <Header content="Task Notes" as="h2"></Header>
-//         <Modal.Content>
-//           <Form.Input
-//             label="notes"
-//             type="text"
-//             name="notes"
-//             placeholder="New Note(s)"
-//             id="username"
-//             onChange={this.handleChange}
-//           >
-//             {this.state.notes}
-//           </Form.Input>
-//         </Modal.Content>
-//         <Modal.Actions>
-//           <Button
-//             color="green"
-//             content="Save"
-//             onClick={
-//               (this.props.handleEditTask(this.props.task.id, this.state.notes),
-//               this.props.showModal)
-//             }
-//           />
-//         </Modal.Actions>
-//       </Modal>
-//     );
-//   }
-// }
 export default NewTaskButton;

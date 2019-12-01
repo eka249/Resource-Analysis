@@ -10,7 +10,8 @@ class AddNewUser extends Component {
     last_name: "",
     unit: "",
     role: "",
-    password: "123456789a!"
+    password: "123456789a!",
+    modalOpen: false
   };
   handleChange = e => {
     let inputVal = e.target.id;
@@ -41,9 +42,16 @@ class AddNewUser extends Component {
         console.log("after sign up form", data);
       });
   };
-  handleOpen = () => this.setState({ modalOpen: true });
+  showModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    });
+  };
 
-  handleClose = () => this.setState({ modalOpen: false });
+  handleFrontEndSubmit = () => {
+    this.submitNewUser();
+    this.showModal();
+  };
 
   render() {
     const roleOptions = [
@@ -57,7 +65,9 @@ class AddNewUser extends Component {
           size="large"
           trigger={
             <Button
-              onClick={this.handleOpen}
+              trigger={<Button onClick={this.showModal}>Add New User</Button>}
+              open={this.state.modalOpen}
+              onClose={this.showModal}
               animated="fade"
               floaded="right"
               color="green"
@@ -113,9 +123,7 @@ class AddNewUser extends Component {
             />
           </Modal.Content>
           <Modal.Actions>
-            <Button primary onClick={this.submitNewUser}>
-              Submit
-            </Button>
+            <Button onClick={this.handleFrontEndSubmit}>Submit</Button>
           </Modal.Actions>
         </Modal>
       </div>

@@ -42,23 +42,31 @@ class FilterEmpForm extends Component {
           let titles = task.title
             .split(" ")
             .filter(word => word.toLowerCase().match(searched));
+          let clients = task.client
+            .split(" ")
+            .filter(word => word.toLowerCase().match(searched));
+          // let emps = task.emp_id
+          // .split(" ")
+          // .filter(word => word.toLowerCase().match(searched));
           let descWords = task.description
             .split(" ")
             .filter(word => word.toLowerCase().match(searched));
-          return titles.length > 0 || descWords.length > 0;
+          return (
+            titles.length > 0 || descWords.length > 0 || clients.length > 0
+          );
         });
         if (filteredList.length > 0) {
           return filteredList.map((task, index) => {
             return (
               <div>
-                <TaskDetails
+                {/* <TaskDetails
                   key={index}
                   myTask={task}
-                  handleCompleteTask={this.handleCompleteTask}
+                  // handleCompleteTask={this.handleCompleteTask}
                   // handleEditTask={this.handleEditTask}
                   employees={this.props.employees}
                   handleFetchAllTasks={this.props.handleFetchAllTasks}
-                />
+                /> */}
               </div>
             );
           });
@@ -74,7 +82,7 @@ class FilterEmpForm extends Component {
       <div>
         <Form>
           <Form.Input
-            label="Search Employees or Tasks"
+            label="Search Employee, Task, Description, or Client"
             type="text"
             placeholder="Task keywork"
             id="searchTask"
