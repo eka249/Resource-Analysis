@@ -7,7 +7,6 @@ import NewTaskButton from "../components/manager/NewTaskButton";
 class ManagerContainer extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       user: this.props.user,
       employees: [],
@@ -26,7 +25,7 @@ class ManagerContainer extends React.Component {
       }
     })
       .then(resp => resp.json())
-      .then(data => console.log(data))
+      // .then(data => console.log(data))
       .then(data =>
         this.setState({
           employees: data
@@ -46,13 +45,14 @@ class ManagerContainer extends React.Component {
       .then(resp => resp.json())
       // .then(data => console.log("just the response", data))
       .then(data =>
+        //sets state with only tasks that are theirs or their employee's
         this.setState({
           allMyTasks: data.filter(
             removed =>
-              removed.user_id !== this.props.user.id ||
-              removed.emp_id !== this.props.user.id
-          ),
-          allTasks: data
+              (removed.user_id !== this.props.user.id ||
+                removed.emp_id !== this.props.user.id) &&
+              removed.completed == false
+          )
         })
       )
 

@@ -119,7 +119,7 @@ class App extends Component {
                 {...props}
               />
               <AdminHome
-                employees={this.state.employees}
+                // employees={this.state.employees}
                 logOut={this.logOut}
                 user={this.state.user}
                 loggedIn={this.state.logged_in}
@@ -145,7 +145,7 @@ class App extends Component {
                 user={this.state.user}
                 loggedIn={this.state.logged_in}
                 {...props}
-                employees={this.state.employees}
+                // employees={this.state.employees}
               />
             </div>
           )}

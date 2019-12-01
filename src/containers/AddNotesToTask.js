@@ -76,14 +76,14 @@ class AddNotesToTask extends Component {
         description: this.state.description,
         completed: this.state.completed
       })
-    });
+    }).then(this.props.handleFetchAllTasks);
   };
 
   render() {
     return (
       <Modal
         size="large"
-        trigger={<Button onClick={this.showModal}>Edit Task</Button>}
+        trigger={<Button onClick={this.showModal}>Edit</Button>}
         open={this.state.modalOpen}
         onClose={this.showModal}
       >

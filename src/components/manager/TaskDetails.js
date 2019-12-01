@@ -7,20 +7,6 @@ class TaskDetails extends Component {
     super(props);
   }
 
-  handleEditTask = (task, notes) => {
-    fetch(`http://localhost:3000/tasks/${task}`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.token}`
-      },
-      body: JSON.stringify({
-        notes: notes
-      })
-    }).then(this.props.handleFetchAllTasks);
-  };
-
   handleCompleteTask = task => {
     fetch(`http://localhost:3000/tasks/${task}`, {
       method: "PATCH",
@@ -32,7 +18,7 @@ class TaskDetails extends Component {
       body: JSON.stringify({
         completed: 1
       })
-    }).then(this.props.fetchAllTasks);
+    }).then(this.props.handleFetchAllTasks);
   };
 
   render() {
@@ -43,7 +29,11 @@ class TaskDetails extends Component {
     return (
       <List celled>
         <List.Item>
-          <List.Header>{this.props.myTask.description}</List.Header>
+          <List.Header>Task: {this.props.myTask.title}</List.Header>
+          <List.Description>
+            Description:
+            {this.props.myTask.description}
+          </List.Description>
           <List.Description>
             Assigned to:
             {this.props.employees.first_name}
@@ -64,7 +54,7 @@ class TaskDetails extends Component {
             <AddNotesToTask
               myTask={this.props.myTask}
               user={this.props.user}
-              handleEditTask={this.handleEditTask}
+              handleFetchAllTasks={this.props.handleFetchAllTasks}
             />
           </List.Content>
         </List.Item>
