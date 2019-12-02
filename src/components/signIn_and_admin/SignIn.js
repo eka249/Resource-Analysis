@@ -90,7 +90,6 @@ class SignIn extends Component {
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Container textAlign="center">
-                <p>Feel free to try and break the site :)</p>
                 <p>
                   Admin Views <br />
                   username: 1@1.com <br />

@@ -31,7 +31,7 @@ class AdminHome extends Component {
   render() {
     return (
       <div>
-        <AddNewUser />
+        <AddNewUser getUsers={this.getUsers} />
         {this.state.allEmps.map((emp, index) => {
           return (
             <UserList key={index} emp={emp} allEmps={this.state.allEmps} />

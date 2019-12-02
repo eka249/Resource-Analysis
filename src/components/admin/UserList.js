@@ -21,6 +21,8 @@ class UserList extends Component {
 
   render() {
     return (
+      //add dropdown where you can type here
+      //https://react.semantic-ui.com/modules/dropdown/#types-search-selection
       <List celled>
         <List.Item>
           <List.Content>
