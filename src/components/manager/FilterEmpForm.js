@@ -8,8 +8,8 @@ class FilterEmpForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // searchEmp: "",
       searchTask: "",
+      searchEmp: "",
       allCurrentTasks: this.props.unfilteredTaskList
     };
   }
@@ -29,7 +29,7 @@ class FilterEmpForm extends Component {
               <TaskDetails
                 key={index}
                 myTask={task}
-                fetchMyTasks={this.props.fetchMyTasks}
+                handleFetchAllTasks={this.props.handleFetchAllTasks}
                 employees={this.props.employees}
               />
             </div>
@@ -38,14 +38,18 @@ class FilterEmpForm extends Component {
       } else {
         let filteredList = this.props.unfilteredTaskList.filter(task => {
           let searched = this.state.searchTask;
-          // let employees
           let titles = task.title
+            .split(" ")
+            .filter(word => word.toLowerCase().match(searched));
+          let clients = task.client
             .split(" ")
             .filter(word => word.toLowerCase().match(searched));
           let descWords = task.description
             .split(" ")
             .filter(word => word.toLowerCase().match(searched));
-          return titles.length > 0 || descWords.length > 0;
+          return (
+            titles.length > 0 || descWords.length > 0 || clients.length > 0
+          );
         });
         if (filteredList.length > 0) {
           return filteredList.map((task, index) => {
@@ -54,18 +58,16 @@ class FilterEmpForm extends Component {
                 <TaskDetails
                   key={index}
                   myTask={task}
-                  handleCompleteTask={this.handleCompleteTask}
-                  // handleEditTask={this.handleEditTask}
                   employees={this.props.employees}
                   handleFetchAllTasks={this.props.handleFetchAllTasks}
                 />
               </div>
             );
           });
+        } else {
+          return null;
         }
       }
-    } else {
-      return null;
     }
   };
 
@@ -74,9 +76,9 @@ class FilterEmpForm extends Component {
       <div>
         <Form>
           <Form.Input
-            label="Search Employees or Tasks"
+            label="Search Task, Description, or Client"
             type="text"
-            placeholder="Task keywork"
+            placeholder="Keywords"
             id="searchTask"
             onChange={this.handleChange}
           />

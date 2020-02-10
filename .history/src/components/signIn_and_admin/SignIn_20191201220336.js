@@ -109,7 +109,7 @@ class SignIn extends Component {
                 <br />
 
                 <p>
-                  ....or make another user in the Admin Account! <br />
+                  ....or make another user! <br />
                   Passwords default to 123456789a!
                 </p>
               </Container>

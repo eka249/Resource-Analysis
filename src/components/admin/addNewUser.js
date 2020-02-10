@@ -1,7 +1,12 @@
 import React, { Component } from "react";
-import { Form, Button, Modal, Select } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { userPostFetch } from "../../actions/fetchActions";
+import {
+  Form,
+  Button,
+  Modal,
+  Select,
+  Dropdown,
+  Input
+} from "semantic-ui-react";
 
 class AddNewUser extends Component {
   state = {
@@ -10,14 +15,14 @@ class AddNewUser extends Component {
     last_name: "",
     unit: "",
     role: "",
-    password: "123456789a!"
+    password: "123456789a!",
+    modalOpen: false
   };
   handleChange = e => {
-    let inputVal = e.target.id;
-    this.setState({ ...this.state, [inputVal]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
-  submitNewUser = e => {
-    e.preventDefault();
+  submitNewUser = () => {
+    // e.preventDefault();
     console.log("started post new user from front end");
     fetch("http://localhost:3000/users", {
       method: "POST",
@@ -28,7 +33,7 @@ class AddNewUser extends Component {
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password,
+        password_digest: this.state.password,
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         unit: this.state.unit,
@@ -36,86 +41,99 @@ class AddNewUser extends Component {
       })
     })
       .then(response => response.json())
-      .then(this.handleClose)
-      .then(data => {
-        console.log("after sign up form", data);
-      });
+      .then(() => this.props.getUsers());
   };
-  handleOpen = () => this.setState({ modalOpen: true });
+  showModal = () => {
+    this.setState({
+      modalOpen: !this.state.modalOpen
+    });
+  };
 
-  handleClose = () => this.setState({ modalOpen: false });
+  handleFrontEndSubmit = () => {
+    this.submitNewUser();
+    this.showModal();
+  };
 
   render() {
-    const roleOptions = [
-      { key: "manager", text: "Manager", value: "manager" },
-      { key: "admin", text: "Admin", value: "admin" },
-      { key: "employee", text: "Employee", value: "employee" }
-    ];
     return (
       <div>
         <Modal
           size="large"
-          trigger={
-            <Button
-              onClick={this.handleOpen}
-              animated="fade"
-              floaded="right"
-              color="green"
-              content="Create New User"
-            >
-              <Button.Content visible>New User</Button.Content>
-              <Button.Content hidden>New User</Button.Content>
-            </Button>
-          }
+          trigger={<Button onClick={this.showModal}>Add New User</Button>}
+          open={this.state.modalOpen}
+          onClose={this.showModal}
+          animated="fade"
+          floaded="right"
+          color="green"
+          content="Create New User"
         >
           <Modal.Header as="h3">Enter New User Details</Modal.Header>
           <Modal.Content>
             <Form>
-              <Form.Input
+              <Form.Field
+                control={Input}
                 label="Email "
                 // required
                 type="text"
                 placeholder="Email"
                 id="email"
-                // value={this.state.newUser.newUsername}
-                onChange={e => this.handleChange}
+                name="email"
+                onChange={this.handleChange}
               />
-              <Form.Input
+              <Form.Field
+                control={Input}
                 label="First Name"
                 type="text"
                 id="first_name"
+                name="first_name"
                 placeholder="New User First Name"
-                onChange={e => this.handleChange}
+                onChange={this.handleChange}
               />
 
-              <Form.Input
+              <Form.Field
+                control={Input}
                 label="Last Name"
                 type="text"
-                id="laset_name"
+                id="last_name"
+                name="last_name"
                 placeholder="New User Last Name"
-                onChange={e => this.handleChange}
+                onChange={this.handleChange}
               />
             </Form>
-            <Form.Input
+            <Form.Field
+              control={Input}
               label="Unit"
               type="text"
               id="unit"
+              name="unit"
               placeholder="New User Unit"
-              onChange={e => this.handleChange}
+              onChange={this.handleChange}
             />
-            <Form.Input
-              label="Position"
-              control={Select}
-              options={roleOptions}
-              id="role"
-              placeholder="New User Position"
-              onChange={e => this.handleChange}
-            />
+            <Form.Group inline>
+              <label>Position</label>
+              <Form.Radio
+                label="Admin"
+                name="admin"
+                value="admin"
+                checked={this.state.role == "admin"}
+                onChange={this.handleChange}
+              />
+              <Form.Radio
+                label="Manager"
+                name="manager"
+                checked={this.state.role === "manager"}
+                onChange={this.handleChange}
+              />
+              <Form.Radio
+                label="Employee"
+                name="emp"
+                checked={this.state.role === "emp"}
+                onChange={this.handleChange}
+              />
+            </Form.Group>
           </Modal.Content>
           <Modal.Actions>
-            <Button primary onClick={this.submitNewUser}>
-              Submit
-            </Button>
+            <Button onClick={this.handleFrontEndSubmit}>Submit</Button>
           </Modal.Actions>
         </Modal>
       </div>

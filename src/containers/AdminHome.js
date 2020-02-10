@@ -4,21 +4,39 @@ import UserList from "../components/admin/UserList";
 import AddNewUser from "../components/admin/addNewUser";
 
 class AdminHome extends Component {
-  state = {
-    show: false
+  constructor() {
+    super();
+    this.getUsers();
+    this.state = {
+      allEmps: []
+    };
+  }
+  getUsers = () => {
+    fetch(`http://localhost:3000/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${localStorage.token}`
+      }
+    })
+      .then(resp => resp.json())
+      .then(data =>
+        this.setState({
+          allEmps: data
+        })
+      );
   };
 
   render() {
     return (
       <div>
-        {this.props.employees.map((emp, index) => {
+        <AddNewUser getUsers={this.getUsers} />
+        {this.state.allEmps.map((emp, index) => {
           return (
-            <div>
-              <UserList key={index} emp={emp} />
-            </div>
+            <UserList key={index} emp={emp} allEmps={this.state.allEmps} />
           );
         })}
-        <AddNewUser user={this.props.user} employees={this.props.employees} />
       </div>
     );
   }

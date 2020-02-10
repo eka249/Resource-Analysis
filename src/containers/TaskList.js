@@ -47,20 +47,6 @@ class TaskList extends Component {
   //   .catch(err => console.log(err));
   // }
 
-  handleEditTask = (task, notes) => {
-    fetch(`http://localhost:3000/tasks/${task}`, {
-      method: "PATCH",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.token}`
-      },
-      body: JSON.stringify({
-        notes: notes
-      })
-    });
-  };
-
   handleCompleteTask = task => {
     fetch(`http://localhost:3000/tasks/${task}`, {
       method: "PATCH",
