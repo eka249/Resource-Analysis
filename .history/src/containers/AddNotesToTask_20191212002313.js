@@ -44,11 +44,12 @@ class AddNotesToTask extends Component {
   };
   employeeOptions = () => {
     let options = [
+      { key: "Matt", text: "Matt", value: "Matt" },
       { key: "Jared", text: "Jared", value: "Jared" },
       { key: "Joseph", text: "Joseph", value: "Joseph" },
       { key: "Brittan", text: "Brittan", value: "Brittan" },
-      { key: "Katana", text: "JKatana", value: "Katana" },
-      { key: "Matt", text: "Matt", value: "Matt" }
+      { key: "Katana", text: "JKatana", value: "Katana" 
+     
     ];
     return options;
   };

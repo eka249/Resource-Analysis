@@ -22,7 +22,7 @@ class AddNewUser extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
   submitNewUser = () => {
-    // e.preventDefault();
+    e.preventDefault();
     console.log("started post new user from front end");
     fetch("http://localhost:3000/users", {
       method: "POST",

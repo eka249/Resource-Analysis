@@ -13,11 +13,10 @@ class UserList extends Component {
       managers => this.props.emp.unit == "Mod5"
       // managers.unit
     );
-    console.log("manager logic", manager);
+    // console.log("manager logic", manager);
     this.setState({
       manager: manager
     });
-    //make sure that manager definition is correct; does it need to be this.state.emp.manager?
     // return manager;
   };
 

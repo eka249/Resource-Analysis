@@ -17,7 +17,6 @@ class UserList extends Component {
     this.setState({
       manager: manager
     });
-    //make sure that manager definition is correct; does it need to be this.state.emp.manager?
     // return manager;
   };
 
