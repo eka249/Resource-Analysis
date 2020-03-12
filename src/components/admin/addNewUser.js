@@ -33,7 +33,7 @@ class AddNewUser extends Component {
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password,
+        password_digest: this.state.password,
         first_name: this.state.first_name,
         last_name: this.state.last_name,
         unit: this.state.unit,
@@ -67,7 +67,7 @@ class AddNewUser extends Component {
           color="green"
           content="Create New User"
         >
-          } ><Modal.Header as="h3">Enter New User Details</Modal.Header>
+          <Modal.Header as="h3">Enter New User Details</Modal.Header>
           <Modal.Content>
             <Form>
               <Form.Field

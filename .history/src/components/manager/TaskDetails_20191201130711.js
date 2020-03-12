@@ -34,11 +34,11 @@ class TaskDetails extends Component {
             Description:
             {this.props.myTask.description}
           </List.Description>
-          {/* <List.Description>
+          <List.Description>
             Assigned to:
             {this.props.employees.first_name}
             {this.props.employees.last_name}
-          </List.Description> */}
+          </List.Description>
           <List.Description>
             Client:
             {this.props.myTask.client}

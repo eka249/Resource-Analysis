@@ -21,8 +21,8 @@ class AddNotesToTask extends Component {
       title: this.props.myTask.title,
       emp_id: this.props.myTask.emp_id,
       client: this.props.myTask.client,
-      // assigned_date: this.props.myTask.assigned_date,
-      // completed_date: this.props.myTask.completed_date,
+      assigned_date: this.props.myTask.assigned_date,
+      completed_date: this.props.myTask.completed_date,
       description: this.props.myTask.description,
       completed: this.props.myTask.completed,
       modalOpen: false
@@ -44,11 +44,11 @@ class AddNotesToTask extends Component {
   };
   employeeOptions = () => {
     let options = [
+      { key: "Matt", text: "Matt", value: "Matt" },
       { key: "Jared", text: "Jared", value: "Jared" },
       { key: "Joseph", text: "Joseph", value: "Joseph" },
       { key: "Brittan", text: "Brittan", value: "Brittan" },
-      { key: "Katana", text: "JKatana", value: "Katana" },
-      { key: "Matt", text: "Matt", value: "Matt" }
+      { key: "Katana", text: "JKatana", value: "Katana" }
     ];
     return options;
   };
@@ -71,8 +71,8 @@ class AddNotesToTask extends Component {
         title: this.state.title,
         emp_id: this.state.emp_id,
         client: this.state.client,
-        // start_date: this.state.assigned_date,
-        // end_date: this.state.completed_date,
+        start_date: this.state.assigned_date,
+        end_date: this.state.completed_date,
         description: this.state.description,
         completed: this.state.completed
       })
@@ -131,7 +131,7 @@ class AddNotesToTask extends Component {
               ></Form.Field>
             </Form.Group>
             <Header>Select Start Date</Header>
-            {/* 
+
             <DatePicker
               name="assigned_date"
               id="assigned_date"
@@ -145,7 +145,7 @@ class AddNotesToTask extends Component {
               name="completed_date"
               selected={this.state.completed_date}
               onChange={this.handleChangeDate}
-            /> */}
+            />
             <Form.Field
               control={TextArea}
               label="Notes"
